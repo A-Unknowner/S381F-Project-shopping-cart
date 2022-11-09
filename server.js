@@ -4,6 +4,8 @@ const url = require('url');
 const server = http.createServer((req,res) => {
    let timestamp = new Date().toISOString();
    
+   console.log();
+   
    console.log(req.url);
    
    // convert path and query string parameters of incoming requests to JSON
