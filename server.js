@@ -12,6 +12,10 @@ const server = http.createServer((req,res) => {
    const parsedURL = url.parse(req.url,true);
    
    switch(parsedURL.pathname) {
+   case '/':
+   case '/index':
+   res.write('Index');
+   break;
       case '/login':
          res.writeHead(200, {'Content-Type': 'text/html'});  // send HTTP response header
          res.write('<html><body>');  // send HTTP response body 
