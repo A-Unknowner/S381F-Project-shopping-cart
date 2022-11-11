@@ -1,5 +1,5 @@
 //HTML 
-const html = require('html');
+//const html = require('html');
 const url = require('url');
 const assert = require('assert');
 //File
@@ -21,6 +21,28 @@ const bodyParser = require('body-parser');
 
 const { Buffer } = require('safe-buffer');
 
+//Main Body
+app.set('view engine', 'ejs');
+app.use(formidable());
+
+//Middleware
+app.use(bodyParser.json());
+//Cookie
+app.use(session({
+    userid: "session",  
+    keys: ['th1s!sA5ecretK3y'],
+    //maxAge: 90 * 24 * 60 * 60 * 1000
+}));
+
+//alway checking do user are login before
+app.use((req, res, next) => {
+    console.log("...Checking login status");
+    if (req.session.authenticated){
+      next();
+    } else {
+      res.redirect("/login");
+    }
+});
 
 //handling requests
 app.get('/', (req, res)=>{
@@ -34,6 +56,9 @@ app.get('/', (req, res)=>{
 //login
 app.get('/login', (req, res)=>{
     console.log("...Welcome to login page");
-    res.sendFile(__dirname + '/public/login.html');
+    res.sendFile(__dirname + '/views/login.ejs');
     res.status(200).render("login");
 });
+
+
+app.listen(process.env.PORT || 8099);
