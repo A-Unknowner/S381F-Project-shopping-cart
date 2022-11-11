@@ -9,7 +9,7 @@ const formidable = require('express-formidable');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
-const mongourl = ''; 
+const mongourl = 'mongodb+srv://yliustudy:yliustudy@cluster0.gco0kvr.mongodb.net/?retryWrites=true&w=majority'; 
 
 const dbName = 'test';
 
@@ -53,6 +53,33 @@ app.get('/', (req, res)=>{
     console.log("...Hello, welcome back");
     handle_Find(req, res, {});
 });
+
+// check connect
+const handle_Find = (req, res, criteria) =>{
+    const client = new MongoClient(mongourl);
+    client.connect((err)=>{
+        assert.equal(null, err);
+        console.log("Connected successfully to the DB server.");
+        const db = client.db(dbName);
+        //callback()
+        findDocument(db, {}, (docs)=>{
+            client.close();
+            console.log("Closed DB connection.");
+            res.status(200).render('home', {name: `${req.session.userid}`, ninventory: docs.length, inventory: docs});
+        });
+    });
+}
+
+const findDocument = (db, criteria, callback) => {
+    let cursor = db.collection('inventory').find(criteria);
+    console.log(`findDocument: ${JSON.stringify(criteria)}`);
+    cursor.toArray((err, docs)=>{
+        assert.equal(err, null);
+        console.log(`findDocument: ${docs.length}`);
+        callback(docs);
+    });
+}
+
 //login
 app.get('/login', (req, res)=>{
     console.log("...Welcome to login page");
