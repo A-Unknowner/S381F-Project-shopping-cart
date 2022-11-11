@@ -191,7 +191,7 @@ button {
     top: 0;
     width: 900px;
     height: 100%;
-    background-image: url("../images/lance-asper-Ny0C6Iwou40-unsplash.jpg");
+    /* background-image: url("../images/lance-asper-Ny0C6Iwou40-unsplash.jpg"); */
     background-size: cover;
     transition: -webkit-transform 1.2s ease-in-out;
     transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;

@@ -30,19 +30,19 @@ app.use(bodyParser.json());
 //Cookie
 app.use(session({
     userid: "session",  
-    keys: ['th1s!sA5ecretK3y'],
+    keys: ['th1s!sA5ecretK3y1'],
     //maxAge: 90 * 24 * 60 * 60 * 1000
 }));
 
 //alway checking do user are login before
-app.use((req, res, next) => {
-    console.log("...Checking login status");
-    if (req.session.authenticated){
-      next();
-    } else {
-      res.redirect("/login");
-    }
-});
+// app.use((req, res, next) => {
+//     console.log("...Checking login status");
+//     if (req.session.authenticated){
+//       next();
+//     } else {
+//       res.redirect("/login");
+//     }
+// });
 
 //handling requests
 app.get('/', (req, res)=>{
@@ -61,17 +61,18 @@ const handle_Find = (req, res, criteria) =>{
         assert.equal(null, err);
         console.log("Connected successfully to the DB server.");
         const db = client.db(dbName);
-        //callback()
-        findDocument(db, {}, (docs)=>{
+        // //callback()
+        // findDocument(db, {}, (docs)=>{
             client.close();
             console.log("Closed DB connection.");
-            res.status(200).render('home', {name: `${req.session.userid}`, ninventory: docs.length, inventory: docs});
-        });
+        //     res.status(200).render('home', {name: `${req.session.userid}`, ninventory: docs.length, inventory: docs});
+        // });
+
     });
 }
 
 const findDocument = (db, criteria, callback) => {
-    let cursor = db.collection('inventory').find(criteria);
+    let cursor = db.collection('user_account').find(criteria);
     console.log(`findDocument: ${JSON.stringify(criteria)}`);
     cursor.toArray((err, docs)=>{
         assert.equal(err, null);
@@ -83,8 +84,8 @@ const findDocument = (db, criteria, callback) => {
 //login
 app.get('/login', (req, res)=>{
     console.log("...Welcome to login page");
-    res.sendFile(__dirname + '/views/login.ejs');
-    res.status(200).render("login");
+    res.sendFile(__dirname + '/views/index.html');
+    res.status(200).render("index");
 });
 
 
