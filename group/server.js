@@ -85,8 +85,8 @@ const findDocument = (db, criteria, callback) => {
 app.get('/login', (req, res)=>{
     console.log("...Welcome to login page");
     res.sendFile(__dirname + '/views/index.html');
-    res.status(200).render("index");
+    // res.status(200).render("index");
 });
-
+app.use(express.static("css"));
 
 app.listen(process.env.PORT || 8099);
