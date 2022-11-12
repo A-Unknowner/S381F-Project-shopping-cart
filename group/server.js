@@ -111,6 +111,10 @@ const passwordEncryption = (password, callback) => {
 
 //login
 app.get('/login', (req, res)=>{
+    if(req.session.authenticated){
+        console.log("...Hello, welcome back");
+        res.status(200).redirect("/home");
+    }
     console.log("...Welcome to login page");
     //res.sendFile(__dirname + '/public/login.html');
     res.status(200).render('login', {fail: false, message: ``, username: ``, email:`` });
