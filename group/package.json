@@ -1,7 +1,7 @@
 {
     "name": "shopping_car",
     "description": "COMPS381F project",
-    "author": "Wong Ping Kuen <s1303149@live.hkmu.edu.hk>, Rai Jon <s1274941@live.hkmu.edu.hk>",
+    "author": "Wong Ping Kuen <s1303149@live.hkmu.edu.hk>",
     "version": "0.0.1",
     "engines": {
         "node": "^14.15.1"
@@ -15,7 +15,8 @@
         "fs": "0.0.1-security",
         "html": "^1.0.0",
         "mongodb": "^3.6.3",
-        "assert": "^1.4.1"
+        "assert": "^1.4.1",
+        "bcryptjs": "2.4.3"
     },
     "engine": "node >= 12.0.0",
     "scripts": {
