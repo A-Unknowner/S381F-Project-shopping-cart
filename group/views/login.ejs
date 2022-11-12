@@ -18,7 +18,7 @@
             <form action="/login" method="post" id="login_form">
                 <label>
                     <span>Email/UserName</span>
-                    <input type="text" name="username" id="username" required />
+                    <input type="text" name="username" id="username" required value="<%= username %>"/>
                 </label>
                 <label>
                     <span>Password</span>
@@ -51,7 +51,7 @@
                 <form action="/login" method="post" id="signUp_form">
                     <label>
                         <span>UserName</span>
-                        <input type="text" name="new_acct_uname" id="new_acct_uname" required value="<%= username %>"/>
+                        <input type="text" name="new_acct_uname" id="new_acct_uname" required value="<%= username_new %>"/>
                     </label>
                     <label>
                         <span>Email</span>
@@ -95,7 +95,9 @@
         confirm_password.onchange = validatePassword;
 
         if(<%= fail %>){
+            if(<%= username%> == ""){
             signInOrUp.className += " s-signup";
+            }
             alert("<%= message %>");
         }
     </script>
