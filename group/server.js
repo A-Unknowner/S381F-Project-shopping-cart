@@ -228,9 +228,16 @@ app.use("/login", (req,res, next) => {
 
                 client.close();
 
-                for (var i of docs){
+                if (docs.length != 0) {
 
-                    bcrypt.compare(req.fields.password, i.password, (err, result) => {
+                    let auth_password = "";
+
+                    for (var i of docs){
+
+                        auth_password = i.password;
+                    }
+
+                    bcrypt.compare(req.fields.password, auth_password, (err, result) => {
 
                         assert.equal(null, err);
 
@@ -246,9 +253,25 @@ app.use("/login", (req,res, next) => {
 
                             req.session.authenticated = false;
 
-                        }
+                            // For security reason, do not needed to give to must information to the user.
+                            console.log("The username or password incorrect");
+
+                            res.status(200).redirect("/");
+
+                            }
 
                     }); 
+
+                    
+
+                } else {
+
+                    req.session.authenticated = false;
+
+                    // For security reason, do not needed to give to must information to the user.
+                    console.log("The username or password incorrect");
+
+                    res.status(200).redirect("/");
 
                 }
     
