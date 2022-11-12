@@ -87,6 +87,8 @@ app.get('/login', (req, res)=>{
     res.sendFile(__dirname + '/views/index.html');
     // res.status(200).render("index");
 });
+
+//CSS
 app.use(express.static("css"));
 
 app.listen(process.env.PORT || 8099);
