@@ -117,7 +117,12 @@ app.get('/login', (req, res)=>{
         console.log("...Welcome to login page");
     } else{
 
-        res.status(200).render('login', {fail: false, message: ``, username: ``, username_new: ``, email:`` });
+        res.status(200).render('login', {fail: false, 
+                                         message: ``, 
+                                         username: ``, 
+                                         username_new: ``, 
+                                         password: ``, 
+                                         email:`` });
 
     }
    
@@ -133,6 +138,7 @@ app.get('/home', (req, res) => {
 
 })
 
+
 // logout function
 app.get("/logout", (req, res) => {
 
@@ -143,6 +149,22 @@ app.get("/logout", (req, res) => {
     res.status(200).redirect('/');
 
 })
+
+app.get("/profile", (req, res) => {
+
+    console.log("Welcome to edit user profile page");
+
+    res.status(200).render("profile");
+
+
+});
+
+app.post("/profile", (req, res) => {
+
+    console.log("Update user profile");
+
+})
+
 
 app.use("/login", (req,res, next) => {
 
@@ -182,21 +204,36 @@ app.use("/login", (req,res, next) => {
                             username_array.includes(req.fields.new_acct_uname) == false){
 
                             console.log("This email already used");
-                            res.status(200).render('login', {fail: true, message: `This email already used`, username: ``, username_new: `${req.fields.new_acct_uname}`, email:`${req.fields.new_email}` });
+                            res.status(200).render('login', {fail: true, 
+                                                             message: `This email already used`, 
+                                                             username: ``, 
+                                                             username_new: `${req.fields.new_acct_uname}`, 
+                                                             password:``,
+                                                             email:`${req.fields.new_email}` });
 
 
                         } else if (email_array.includes(req.fields.new_email) == false &&
                                    username_array.includes(req.fields.new_acct_uname) == true){
                             
                             console.log("This username already used");
-                            res.status(200).render('login', {fail: true, message: `This username already used`, username: ``, username_new: `${req.fields.new_acct_uname}`, email:`${req.fields.new_email}` });
+                            res.status(200).render('login', {fail: true, 
+                                                             message: `This username already used`, 
+                                                             username: ``, 
+                                                             username_new: `${req.fields.new_acct_uname}`, 
+                                                             password:``,
+                                                             email:`${req.fields.new_email}` });
 
 
                         } else if (email_array.includes(req.fields.new_email) == true &&
                                    username_array.includes(req.fields.new_acct_uname) == true){
 
                             console.log("This username and email already used");
-                            res.status(200).render('login', {fail: true, message: `This username and email already used`, username: ``, username_new: `${req.fields.new_acct_uname}`, email:`${req.fields.new_email}` });
+                            res.status(200).render('login', {fail: true, 
+                                                             message: `This username and email already used`, 
+                                                             username: ``, 
+                                                             username_new: `${req.fields.new_acct_uname}`, 
+                                                             password:``, 
+                                                             email:`${req.fields.new_email}` });
 
                         } else if (email_array.includes(req.fields.new_email) == false &&
                                    username_array.includes(req.fields.new_acct_uname) == false){
@@ -267,7 +304,12 @@ app.use("/login", (req,res, next) => {
                             // For security reason, do not needed to give to must information to the user.
                             console.log("The username or password incorrect");
 
-                            res.status(200).render('login', {fail: true, message: `The username or password incorrect`, username: `${req.fields.username}`, username_new: ``, email:`` });
+                            res.status(200).render('login', {fail: true, 
+                                                             message: `The username or password incorrect`, 
+                                                             username: `${req.fields.username}`, 
+                                                             username_new: ``, 
+                                                             password: `${req.fields.password}`, 
+                                                             email:`` });
 
                             }
 
@@ -281,7 +323,12 @@ app.use("/login", (req,res, next) => {
 
                     // For security reason, do not needed to give to must information to the user.
                     console.log("The username or password incorrect");
-                    res.status(200).render('login', {fail: true, message: `The username or password incorrect`, username: `${req.fields.username}`, username_new: ``, email:`` });
+                    res.status(200).render('login', {fail: true, 
+                                                     message: `The username or password incorrect`, 
+                                                     username: `${req.fields.username}`, 
+                                                     username_new: ``, 
+                                                     password: `${req.fields.password}`, 
+                                                     email:`` });
 
                     // res.status(200).redirect("/");
 
