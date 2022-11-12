@@ -114,11 +114,13 @@ app.get('/login', (req, res)=>{
     if(req.session.authenticated){
         console.log("...Hello, welcome back");
         res.status(200).redirect("/home");
-    }
-    console.log("...Welcome to login page");
-    //res.sendFile(__dirname + '/public/login.html');
-    res.status(200).render('login', {fail: false, message: ``, username: ``, username_new: ``, email:`` });
+        console.log("...Welcome to login page");
+    } else{
 
+        res.status(200).render('login', {fail: false, message: ``, username: ``, username_new: ``, email:`` });
+
+    }
+   
 });
 
 app.get('/home', (req, res) => {
