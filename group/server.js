@@ -311,7 +311,6 @@ app.post("/login", (req,res, next) => {
 
 });
 
-//CSS
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public/css"));
 
 app.listen(process.env.PORT || 8099);
