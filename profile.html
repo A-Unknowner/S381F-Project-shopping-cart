@@ -7,13 +7,8 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="css/profile.css">
+    <link rel="stylesheet" type="text/css" href="profile.css">
 </head>
-<?php
-require_once './conn.php';
-require_once './function/LoginAndSignUP.php';
-
-?>
 
 <body>
     <section class="py-5 my-5">
@@ -23,21 +18,21 @@ require_once './function/LoginAndSignUP.php';
                 <div class="profile-tab-nav border-right">
                     <div class="p-4">
                         <div class="img-circle text-center mb-3">
-                            <img src="<?php print_r($_SESSION['Icon']) ?>" alt="Image" class="shadow">
+                            <img src="image" alt="Image" class="shadow">
                             <input type="file" name="image_path" id="file" accept="image/gif, image/jpeg, image/png">
                         </div>
-                        <h4 class="text-center"><?php print_r($_SESSION['USERNAME']) ?></h4>
+                        <h4 class="text-center">UserName</h4>
                     </div>
                     <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link active" id="account-tab" data-toggle="pill" href="#account" role="tab" aria-controls="account" aria-selected="true">
-                            <i class="fa fa-home text-center mr-1"></i> Account
+                            <i class="fa fa-envelope" aria-hidden="true"></i> Email
                         </a>
                         <a class="nav-link" id="password-tab" data-toggle="pill" href="#password" role="tab" aria-controls="password" aria-selected="false">
                             <i class="fa fa-key text-center mr-1"></i> Password
                         </a>
-                        <!-- <a class="nav-link" id="security-tab" data-toggle="pill" href="#security" role="tab" aria-controls="security" aria-selected="false">
-                            <i class="fa fa-user text-center mr-1"></i> Security
-                        </a> -->
+                        <a class="nav-link" id="security-tab" data-toggle="pill" href="#" onclick="history.go(-1)" role="tab" aria-controls="security" aria-selected="false">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> Back
+                        </a> 
                         <!-- <a class="nav-link" id="application-tab" data-toggle="pill" href="#application" role="tab" aria-controls="application" aria-selected="false">
                             <i class="fa fa-tv text-center mr-1"></i> Application
                         </a>
@@ -53,7 +48,7 @@ require_once './function/LoginAndSignUP.php';
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Send Email To Verify</label>
-                                    <input type="email" class="form-control" id="email" value="<?php print_r($_SESSION['userEmail']) ?>" readonly>
+                                    <input type="email" class="form-control" id="email" value="User Email" readonly>
                                 </div>
                             </div>
                             <!-- <div class="col-md-6">
@@ -106,7 +101,7 @@ require_once './function/LoginAndSignUP.php';
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Send Email To Verify</label>
-                                    <input type="email" class="form-control" id="verificationEmail"  value="<?php print_r($_SESSION['userEmail']) ?>" readonly>
+                                    <input type="email" class="form-control" id="verificationEmail"  value="User Email" readonly>
                                 </div>
                             </div>
                         </div>
@@ -230,284 +225,7 @@ require_once './function/LoginAndSignUP.php';
     <!-- alert box js -->
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <script>
-        var delay = 1;
 
-        function delayURL(value) {
-            var t = setTimeout("delayURL('" + value + "')", 1500);
-            if (delay > 0) {
-                console.log(delay)
-                delay--;
-            } else {
-                clearTimeout(t);
-                window.location.href = value;
-            }
-        }
-
-
-        function ForChagneEmail() {
-            $.ajax({
-                type: "POST",
-                url: "./ajax/ForChagneEmail.php", //Because this file is placed in the admin folder, if you want to go to php, you have to go back to the upper level../ Find php to enter add_article.php
-                data: {
-                    //intro: $("#intro").val(), //Introduction
-                    email: $("#email").val(), //image path
-                    userName: '<?php print_r($_SESSION['USERNAME']) ?>'
-
-                    //publish: "0" //publishing status
-                },
-                dataType: 'html', //Set the webpage response will be html format
-                success: function(result) {
-                    console.log(result);
-                    //When successful
-                    if (result == "yes") {
-                        //The data is added successfully, then jump to the login page.
-                        // alert("yes");
-                        Swal.fire({
-                            title: 'Sent Verification To Your Email',
-                            text: 'Please you check your email',
-                            icon: 'success',
-                            showCancelButton: true,
-                            showDenyButton: false,
-                            showCancelButton: false,
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-
-                            if (result.isConfirmed) {
-                                window.location.href = "logout.php";
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Wrong',
-                            text: 'Something went wrong!',
-
-                        })
-                    }
-
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert(jqXHR.responseText);
-                    alret("Error");
-                }
-
-            });
-
-        }
-
-        function ForChangePassword() {
-            $.ajax({
-                type: "POST",
-                url: "./ajax/ForChangePassword.php", //Because this file is placed in the admin folder, if you want to go to php, you have to go back to the upper level../ Find php to enter add_article.php
-                data: {
-                    //intro: $("#intro").val(), //Introduction
-                    verificationEmail: $("#verificationEmail").val(), //image path
-                    userName: '<?php print_r($_SESSION['USERNAME']) ?>'
-
-                    //publish: "0" //publishing status
-                },
-                dataType: 'html', //Set the webpage response will be html format
-                success: function(result) {
-                    console.log(result);
-                    //When successful
-                    if (result == "yes") {
-
-                        Swal.fire({
-                            title: 'Sent Verification To Your Email',
-                            text: 'Please you check your email',
-                            icon: 'success',
-                            showCancelButton: true,
-                            showDenyButton: false,
-                            showCancelButton: false,
-                            confirmButtonText: 'OK'
-                        }).then((result) => {
-
-                            if (result.isConfirmed) {
-                                window.location.href = "logout.php";
-                            }
-                        });
-                    } else {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Your Email Wrong',
-                            text: 'Something went wrong!',
-
-                        })
-                    }
-
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert(jqXHR.responseText);
-                    alert("Error");
-                }
-
-            });
-
-        }
-
-
-        // function updatePassword() {
-
-        //     if ($("#newPass").val() == $("#cNewPass").val()) {
-        //         $.ajax({
-        //             type: "POST",
-        //             url: "./ajax/updatePassword.php", //Because this file is placed in the admin folder, if you want to go to php, you have to go back to the upper level../ Find php to enter add_article.php
-        //             data: {
-        //                 //intro: $("#intro").val(), //Introduction
-        //                 oldPassword: $("#oldPass").val(),
-        //                 newPassword: $("#newPass").val() //image path
-
-        //                 //publish: "0" //publishing status
-        //             },
-        //             dataType: 'html', //Set the webpage response will be html format
-        //             success: function(result) {
-        //                 console.log(result);
-        //                 //When successful
-        //                 if (result == "yes") {
-        //                     //The data is added successfully, then jump to the login page.
-        //                     // alert("yes");
-        //                     Swal.fire(
-        //                         'Update Password Successful!',
-        //                         'You clicked the button!',
-        //                         'success'
-        //                     );
-
-
-        //                     delayURL('logout.php');
-        //                 } else {
-        //                     Swal.fire({
-        //                         icon: 'error',
-        //                         title: 'Old Password Wrong',
-        //                         text: 'Something went wrong!',
-
-        //                     })
-        //                 }
-
-        //             },
-        //             error: function(jqXHR, textStatus, errorThrown) {
-        //                 alert(jqXHR.responseText);
-        //             }
-
-        //         });
-
-        //     } else {
-        //         Swal.fire({
-        //             icon: 'error',
-        //             title: 'New password and Confirm new password not match',
-        //             text: 'Something went wrong!',
-
-        //         })
-
-        //     }
-
-        // }
-
-        $(document).ready(function() {
-
-
-
-            /**
-             * upload picture
-             */
-            //When the input of uploading pictures is changed
-
-            $("#file").on("change", function() {
-                //Generate FormData object
-
-
-                var file_data = new FormData(),
-                    file_name = $(this)[0].files[0]['name'],
-                    // file_name = $(this)[0][1].files[0]['name'].substr($(this)[0][1].files[0]['name'].length - 4, 4),
-                    // file_name = $(this)[0][0].files[0]['name'] + $(this)[0][0].files[0]['name'].substr($(this)[0][0].files[0]['name'].length - 4, 4),
-                    save_path = "files/images/";
-                // console.log(file_name);
-                //In the picture block, display loading
-
-                //FormData adds the file just selected
-                file_data.append("file", $(this)[0].files[0]);
-                file_data.append("save_path", save_path);
-                //Send data through ajax
-
-                $.ajax({
-                    type: 'POST',
-                    url: './ajax/uploadImage.php',
-                    data: file_data,
-                    cache: false, //Because only upload files, so do not temporarily store
-                    processData: false, //Because only upload files, do not process form information
-                    contentType: false, //The content sent in the past was generated by FormData, so set false
-                    dataType: 'html',
-                    success: function(result) {
-                        console.log(result);
-                        //Uploaded successfully
-                        if (result == "yes") {
-                            //Insert the file
-                            $("div.image").html("<img src='./" + save_path + file_name + "'>");
-                            //Give #image_path value, it will be used when saving
-                            // $("#file").val(save_path + file_name);
-                            // console.log($("#file").val());
-                            $.ajax({
-                                type: "POST",
-                                url: "./ajax/updateIcon.php", //Because this file is placed in the admin folder, if you want to go to php, you have to go back to the upper level../ Find php to enter add_article.php
-                                data: {
-                                    //intro: $("#intro").val(), //Introduction
-                                    image_path: save_path + file_name, //image path
-
-                                    //publish: "0" //publishing status
-                                },
-                                dataType: 'html', //Set the webpage response will be html format
-                                success: function(result) {
-                                    console.log(result);
-                                    //When successful
-                                    if (result == "yes") {
-                                        //The data is added successfully, then jump to the login page.
-                                        // alert("yes");
-                                        Swal.fire(
-                                            'Update Icon Successful!',
-                                            'You clicked the button!',
-                                            'success'
-                                        );
-
-
-                                        delayURL('profile.php');
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: 'Wrong',
-                                            text: 'Something went wrong!',
-
-                                        })
-                                    }
-
-                                },
-                                error: function(jqXHR, textStatus, errorThrown) {
-                                    alert(jqXHR.responseText);
-                                }
-
-                            });
-
-
-
-                        } else {
-                            //Warning message returned
-                            // alert(result);
-                        }
-
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        alert(jqXHR.responseText);
-                    }
-
-                });
-
-                return false;
-            });
-
-
-
-
-        });
-    </script>
 
 </body>
 
