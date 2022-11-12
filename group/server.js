@@ -134,82 +134,67 @@ app.get("/logout", (req, res) => {
 
     req.authenticated = false;
 
-    console.log("Hell");
-
     res.status(200).redirect('/');
 
 })
 
 app.use("/login", (req,res, next) => {
 
-    console.log("Hello World1");
-
     const client = new MongoClient(mongourl);
-
-    console.log("Hello World2");
 
     // sign up
     if (req.fields.new_acct_uname) {
 
-        console.log("Hello World3");
-
         if (req.fields.new_acct_password == 
             req.fields.new_acct_confrim_password){
-                
-            console.log("Hello World4");
 
             client.connect((err) => {
 
-                console.log("Hello World5");
-
                 assert.equal(null, err);
-
-                console.log("Hello World6");
 
                 const db = client.db(dbName);
 
-                console.log("Hello World7");
-
                 findDocument(db, {}, "user", (docs) => {
-
-                    console.log("Hello World8");
 
                     client.close();
 
-                    console.log("Hello World9");
-
                     if (docs.length != 0){
+
+                        var email_array = [];
                     
+                        var username_array = [];
+
                         for (var i of docs) {
 
-                            console.log("Hello World10");
+                            email_array.push(i.email);
 
-                            if (i.email == req.fields.new_email){
-
-                                console.log("This email already used");
-
-                            } else if (i.username == req.fields.new_acct_uname){
-
-                                
-                                console.log("This username already used");
-
-                            } else if (i.username != req.fields.new_acct_uname && 
-                                    i.email != req.fields.new_email){
-
-                                console.log("Hello World11");
-
-                                next();
-
-                            }
+                            username_array.push(i.username);
 
                         }
 
-                    } else{
+                        if (email_array.includes(req.fields.new_email) == true &&
+                            username_array.includes(req.fields.new_acct_uname) == false){
 
-                        next();
+                            console.log("This email already used");
+
+                        } else if (email_array.includes(req.fields.new_email) == false &&
+                                   username_array.includes(req.fields.new_acct_uname) == true){
+                            
+                            console.log("This username already used");
+
+                        } else if (email_array.includes(req.fields.new_email) == true &&
+                                   username_array.includes(req.fields.new_acct_uname) == true){
+
+                            console.log("This username and email already used");
+
+                        } else if (email_array.includes(req.fields.new_email) == false &&
+                                   username_array.includes(req.fields.new_acct_uname) == false){
+                            
+                            next();
+
+                        }
 
                     }
-
                 })
 
             })
@@ -277,8 +262,6 @@ app.use("/login", (req,res, next) => {
 // create user account
 app.post("/login", (req,res, next) => {
 
-    console.log("Hello");
-
     const client = new MongoClient(mongourl);
 
     criteria = {};
@@ -301,7 +284,7 @@ app.post("/login", (req,res, next) => {
 
                 client.close();
 
-                console.log("Inserted document");
+                console.log("Created an account");
 
             });
 
@@ -311,6 +294,6 @@ app.post("/login", (req,res, next) => {
 
 });
 
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public/css"));
 
 app.listen(process.env.PORT || 8099);
