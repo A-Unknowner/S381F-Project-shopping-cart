@@ -76,8 +76,8 @@ app.get('/', (req, res)=>{
         //     res.status(200).render('home', {name: `${req.session.userid}`, ninventory: docs.length, inventory: docs});
         // });
 
-    });
-}
+//    });
+//}
 
 const InsertDocument = (db, criteria, collection, callback) => {
 
