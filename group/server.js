@@ -39,6 +39,8 @@ app.use(session({
     maxAge: 60 * 1000 * 10 // The session will be expired 10 mins later
 }));
 
+
+
 //handling requests
 app.get('/', (req, res)=>{
     if(!req.session.authenticated){
@@ -51,9 +53,13 @@ app.get('/', (req, res)=>{
 
     }
 
+
 });
 
+
+
 const InsertDocument = (db, criteria, collection, callback) => {
+
 
     db.collection(collection).insertOne(criteria, (error, results) => {
 
@@ -136,48 +142,75 @@ app.get("/logout", (req, res) => {
 
 app.use("/login", (req,res, next) => {
 
+    console.log("Hello World1");
+
     const client = new MongoClient(mongourl);
 
+    console.log("Hello World2");
 
     // sign up
     if (req.fields.new_acct_uname) {
 
+        console.log("Hello World3");
+
         if (req.fields.new_acct_password == 
             req.fields.new_acct_confrim_password){
                 
+            console.log("Hello World4");
 
             client.connect((err) => {
 
+                console.log("Hello World5");
+
                 assert.equal(null, err);
+
+                console.log("Hello World6");
 
                 const db = client.db(dbName);
 
+                console.log("Hello World7");
+
                 findDocument(db, {}, "user", (docs) => {
 
+                    console.log("Hello World8");
+
                     client.close();
+
+                    console.log("Hello World9");
+
+                    if (docs.length != 0){
                     
-                    for (var i of docs) {
+                        for (var i of docs) {
 
-                        if (i.email == req.fields.new_email){
+                            console.log("Hello World10");
 
-                            console.log("This email already used");
+                            if (i.email == req.fields.new_email){
 
-                        } else if (i.username == req.fields.new_acct_uname){
+                                console.log("This email already used");
 
-                            console.log("This username already used");
+                            } else if (i.username == req.fields.new_acct_uname){
 
-                        } else if (i.username != req.fields.new_acct_uname && 
-                                   i.email != req.fields.new_email){
+                                
+                                console.log("This username already used");
 
-                            next();
+                            } else if (i.username != req.fields.new_acct_uname && 
+                                    i.email != req.fields.new_email){
+
+                                console.log("Hello World11");
+
+                                next();
+
+                            }
 
                         }
 
-                        }
+                    } else{
+
+                        next();
 
                     }
 
-                )
+                })
 
             })
 
@@ -244,6 +277,7 @@ app.use("/login", (req,res, next) => {
 // create user account
 app.post("/login", (req,res, next) => {
 
+    console.log("Hello");
 
     const client = new MongoClient(mongourl);
 
@@ -267,7 +301,7 @@ app.post("/login", (req,res, next) => {
 
                 client.close();
 
-                console.log("Inserted "+docs.length+" document");
+                console.log("Inserted document");
 
             });
 
