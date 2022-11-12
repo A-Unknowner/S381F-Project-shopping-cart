@@ -25,7 +25,6 @@ const { Buffer } = require('safe-buffer');
 var bcrypt = require('bcryptjs');
 const { nextTick } = require('process');
 
-
 //Main Body
 app.set('view engine', 'ejs');
 app.use(formidable());
@@ -63,30 +62,24 @@ app.get('/', (req, res)=>{
 });
 
 
-
-
-
-
 // check connect
-const handle_Find = (req, res, criteria) =>{
-    const client = new MongoClient(mongourl);
-    client.connect((err)=>{
-        assert.equal(null, err);
-        console.log("Connected successfully to the DB server.");
-        const db = client.db(dbName);
+//const handle_Find = (req, res, criteria) =>{
+//    const client = new MongoClient(mongourl);
+//    client.connect((err)=>{
+//        assert.equal(null, err);
+//        console.log("Connected successfully to the DB server.");
+ //       const db = client.db(dbName);
         // //callback()
         // findDocument(db, {}, (docs)=>{
-            client.close();
-            console.log("Closed DB connection.");
+//            client.close();
+//            console.log("Closed DB connection.");
         //     res.status(200).render('home', {name: `${req.session.userid}`, ninventory: docs.length, inventory: docs});
         // });
 
     });
 }
 
-
 const InsertDocument = (db, criteria, collection, callback) => {
-
 
     db.collection(collection).insertOne(criteria, (error, results) => {
 
@@ -96,10 +89,7 @@ const InsertDocument = (db, criteria, collection, callback) => {
 
     });
 
-
-
 }
-
 
 const findDocument = (db, criteria, collection, callback) => {
 
@@ -108,8 +98,7 @@ const findDocument = (db, criteria, collection, callback) => {
     cursor.toArray((err, docs) => {
 
         assert.equal(null, err);
-
-  
+        
         callback(docs);
 
     });
@@ -132,7 +121,6 @@ const passwordEncryption = (password, callback) => {
 
         })
 
-
     })
 
     console.log("Encryption finished");
@@ -150,13 +138,9 @@ app.get('/home', (req, res) => {
 
     console.log("Welcome to home page");
 
-
-
     res.status(200).render("home");
 
     //res.sendFile(__dirname + '/public/login.html');
-
-
 
 })
 
@@ -171,11 +155,7 @@ app.get("/logout", (req, res) => {
 
     res.redirect('/');
 
-
-
 })
-
-
 
 app.use("/login", (req,res, next) => {
 
@@ -187,7 +167,6 @@ app.use("/login", (req,res, next) => {
         if (req.fields.new_acct_password == 
             req.fields.new_acct_confrim_password){
                 
-
             client.connect((err) => {
 
                 assert.equal(null, err);
@@ -223,11 +202,8 @@ app.use("/login", (req,res, next) => {
 
             })
 
-
-
         }else {console.log("The both password are not match");}
-
-
+        
     // login
     } else {
 
@@ -285,7 +261,6 @@ app.use("/login", (req,res, next) => {
     }
 });
 
-
 // create user account
 app.post("/login", (req,res, next) => {
 
@@ -320,8 +295,6 @@ app.post("/login", (req,res, next) => {
     });
 
 });
-
-   
 
 app.use(express.static(__dirname + "/public/css"));
 
