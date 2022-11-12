@@ -9,7 +9,7 @@ const formidable = require('express-formidable');
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
-const mongourl = 'mongodb+srv://testuser0123:P@ssw0rd@cluster0.xz69qgb.mongodb.net/?retryWrites=true&w=majority'; 
+const mongourl = 'mongodb+srv://testuser0123:PAssw0rd@cluster0.xz69qgb.mongodb.net/?retryWrites=true&w=majority'; 
 
 const dbName = 'group_project';
 
@@ -311,7 +311,6 @@ app.post("/login", (req,res, next) => {
 
 });
 
-//CSS
-app.use(express.static("public"));
+app.use(express.static(__dirname + "/public/css"));
 
 app.listen(process.env.PORT || 8099);
