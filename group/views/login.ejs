@@ -1,36 +1,99 @@
-<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>inventory</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-        <div class="container-fluid text-left ">
-            <div class="card bg-dark text-white">
-                <div class="card-body">Welcome, please login.</div>
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/index.css" media="screen">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+
+</head>
+
+
+<body>
+    <div class="cont">
+        <div class="form sign-in">
+            <h2>Sign In</h2>
+            <form action="/login" method="post" id="login_form">
+                <label>
+                    <span>Email/UserName</span>
+                    <input type="text" name="username" id="username" required />
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" name="password" id="password" required />
+                </label>
+            </form>
+            <button class="submit" type="submit" form="login_form">Sign In</button>
+            <!-- <a href="forgetPassword.php">
+                <p class="forgot-pass">Forgot Password ?</p>
+            </a> -->
+        </div>
+
+        <div class="sub-cont">
+            <div class="img">
+                <div class="img-text m-up">
+                    <h2>New here?</h2>
+                    <p>Sign up and discover great amount of new opportunities!</p>
+                </div>
+                <div class="img-text m-in">
+                    <h2>One of us?</h2>
+                    <p>If you already has an account, just sign in. We've missed you!</p>
+                </div>
+                <div class="img-btn">
+                    <span class="m-up">Sign Up</span>
+                    <span class="m-in">Sign In</span>
+                </div>
             </div>
-            <div class="well">
-                <form action="/login" method="post">
-                    
-                        <label for="username">Username:</label>
-                        
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-                            <input type="text" class="form-control" name="username" id="username" placeholder="Username">
-                            <br>
-               
-                        <label for="password">Password:</label>
-                     
-                            <span class="input-group-addon"><span class="glyphicon glyphicon-lock"></span></span>
-                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
-                    <br>
-                        <button type="submit" class="btn btn-primary">Login</button>
+            <div class="form sign-up">
+                <h2>Sign Up</h2>
+                <form action="/login" method="post" id="signUp_form">
+                    <label>
+                        <span>UserName</span>
+                        <input type="text" name="new_acct_uname" id="new_acct_uname" required />
+                    </label>
+                    <label>
+                        <span>Email</span>
+                        <input type="email" name="new_email" id="new_email" required />
+                    </label>
+                    <label>
+                        <span>Password</span>
+                        <input type="password" name="new_acct_password" id="new_acct_password" required />
+                    </label>
+                    <label>
+                        <span>Confirm Password</span>
+                        <input type="password" name="new_acct_confrim_password" id="new_acct_confrim_password" required />
+                    </label>
                 </form>
+                <button type="submit" class="submit" form="signUp_form">Sign Up Now</button>
             </div>
         </div>
-    </body>
+    </div>
+
+    <script class="u-script" type="text/javascript">
+        document.querySelector('.img-btn').addEventListener('click', function () {
+            document.querySelector('.cont').classList.toggle('s-signup')
+        }
+        );
+    </script>
+    <script>
+        var password = document.getElementById("sPassword")
+            , confirm_password = document.getElementById("cPassword");
+
+        function validatePassword() {
+            if (password.value != confirm_password.value) {
+                confirm_password.setCustomValidity("Passwords Don't Match");
+            } else {
+                confirm_password.setCustomValidity('');
+            }
+        }
+
+        password.onchange = validatePassword;
+        confirm_password.onkeyup = validatePassword;
+        confirm_password.onchange = validatePassword;
+    </script>
+
+</body>
+
 </html>
