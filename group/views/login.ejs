@@ -12,7 +12,7 @@
 
 
 <body>
-    <div class="cont">
+    <div class="cont" id="signInOrUp">
         <div class="form sign-in">
             <h2>Sign In</h2>
             <form action="/login" method="post" id="login_form">
@@ -51,11 +51,11 @@
                 <form action="/login" method="post" id="signUp_form">
                     <label>
                         <span>UserName</span>
-                        <input type="text" name="new_acct_uname" id="new_acct_uname" required />
+                        <input type="text" name="new_acct_uname" id="new_acct_uname" required value="<%= username %>"/>
                     </label>
                     <label>
                         <span>Email</span>
-                        <input type="email" name="new_email" id="new_email" required />
+                        <input type="email" name="new_email" id="new_email" required value="<%= email %>"/>
                     </label>
                     <label>
                         <span>Password</span>
@@ -78,8 +78,9 @@
         );
     </script>
     <script>
-        var password = document.getElementById("sPassword")
-            , confirm_password = document.getElementById("cPassword");
+        var password = document.getElementById("new_acct_password")
+            , confirm_password = document.getElementById("new_acct_confrim_password")
+            , signInOrUp = document.getElementById("signInOrUp");
 
         function validatePassword() {
             if (password.value != confirm_password.value) {
@@ -92,6 +93,11 @@
         password.onchange = validatePassword;
         confirm_password.onkeyup = validatePassword;
         confirm_password.onchange = validatePassword;
+
+        if(<%= fail %>){
+            signInOrUp.className += " s-signup";
+            alert("<%= message %>");
+        }
     </script>
 
 </body>

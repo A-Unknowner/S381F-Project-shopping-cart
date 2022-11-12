@@ -113,7 +113,7 @@ const passwordEncryption = (password, callback) => {
 app.get('/login', (req, res)=>{
     console.log("...Welcome to login page");
     //res.sendFile(__dirname + '/public/login.html');
-    res.status(200).render("login");
+    res.status(200).render('login', {fail: false, message: ``, username: `test`, email:`` });
 
 });
 
@@ -186,6 +186,7 @@ app.use("/login", (req,res, next) => {
                                    username_array.includes(req.fields.new_acct_uname) == true){
 
                             console.log("This username and email already used");
+                            res.status(200).render('login', {fail: true, message: `This username and email already used`, username: `${req.fields.new_acct_uname}`, email:`${req.fields.new_email}` });
 
                         } else if (email_array.includes(req.fields.new_email) == false &&
                                    username_array.includes(req.fields.new_acct_uname) == false){
