@@ -178,16 +178,19 @@ app.use("/login", (req,res, next) => {
                             username_array.includes(req.fields.new_acct_uname) == false){
 
                             console.log("This email already used");
+                            error_message = "This email already used";
 
                         } else if (email_array.includes(req.fields.new_email) == false &&
                                    username_array.includes(req.fields.new_acct_uname) == true){
                             
                             console.log("This username already used");
+                            error_message = "This username already used";
 
                         } else if (email_array.includes(req.fields.new_email) == true &&
                                    username_array.includes(req.fields.new_acct_uname) == true){
 
                             console.log("This username and email already used");
+                            error_message = "This username and email already used";
                             
                         } else if (email_array.includes(req.fields.new_email) == false &&
                                    username_array.includes(req.fields.new_acct_uname) == false){
