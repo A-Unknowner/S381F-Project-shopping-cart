@@ -22,9 +22,12 @@
                 </label>
                 <label>
                     <span>Password</span>
-                    <input type="password" name="password" id="password" required />
+                    <input type="password" name="password" id="password" required value="<%= password %>" />
                 </label>
             </form>
+
+            <h5 class="err-mes"><%= message %></h5>
+
             <button class="submit" type="submit" form="login_form">Sign In</button>
             <!-- <a href="forgetPassword.php">
                 <p class="forgot-pass">Forgot Password ?</p>
