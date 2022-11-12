@@ -25,6 +25,7 @@ const { Buffer } = require('safe-buffer');
 var bcrypt = require('bcryptjs');
 const { nextTick } = require('process');
 
+
 //Main Body
 app.set('view engine', 'ejs');
 app.use(formidable());
@@ -38,46 +39,19 @@ app.use(session({
     maxAge: 60 * 1000 * 10 // The session will be expired 10 mins later
 }));
 
-//alway checking do user are login before
-// app.use((req, res, next) => {
-//     console.log("...Checking login status");
-//     if (req.session.authenticated){
-//       next();
-//     } else {
-//       res.redirect("/login");
-//     }
-// });
-
 //handling requests
 app.get('/', (req, res)=>{
     if(!req.session.authenticated){
         console.log("...Not authenticated; directing to login");
-        res.redirect("/login");
+        res.status(200).redirect("/login");
+    } else{
+
+        console.log("...Hello, welcome back");
+        res.status(200).redirect("/home");
+
     }
-    console.log("...Hello, welcome back");
 
-    res.redirect("/home");
-
-    //handle_Find(req, res, {});
 });
-
-
-// check connect
-//const handle_Find = (req, res, criteria) =>{
-//    const client = new MongoClient(mongourl);
-//    client.connect((err)=>{
-//        assert.equal(null, err);
-//        console.log("Connected successfully to the DB server.");
- //       const db = client.db(dbName);
-        // //callback()
-        // findDocument(db, {}, (docs)=>{
-//            client.close();
-//            console.log("Closed DB connection.");
-        //     res.status(200).render('home', {name: `${req.session.userid}`, ninventory: docs.length, inventory: docs});
-        // });
-
-//    });
-//}
 
 const InsertDocument = (db, criteria, collection, callback) => {
 
@@ -91,6 +65,7 @@ const InsertDocument = (db, criteria, collection, callback) => {
 
 }
 
+
 const findDocument = (db, criteria, collection, callback) => {
 
     cursor = db.collection(collection).find(criteria);
@@ -98,7 +73,8 @@ const findDocument = (db, criteria, collection, callback) => {
     cursor.toArray((err, docs) => {
 
         assert.equal(null, err);
-        
+
+  
         callback(docs);
 
     });
@@ -132,6 +108,7 @@ app.get('/login', (req, res)=>{
     console.log("...Welcome to login page");
     //res.sendFile(__dirname + '/public/login.html');
     res.status(200).render("login");
+
 });
 
 app.get('/home', (req, res) => {
@@ -147,13 +124,13 @@ app.get('/home', (req, res) => {
 // logout function
 app.get("/logout", (req, res) => {
 
-    console.log(req);
-
-    req.session.authenticated = false;
-
     req.session = null;
 
-    res.redirect('/');
+    req.authenticated = false;
+
+    console.log("Hell");
+
+    res.status(200).redirect('/');
 
 })
 
@@ -161,12 +138,14 @@ app.use("/login", (req,res, next) => {
 
     const client = new MongoClient(mongourl);
 
+
     // sign up
     if (req.fields.new_acct_uname) {
 
         if (req.fields.new_acct_password == 
             req.fields.new_acct_confrim_password){
                 
+
             client.connect((err) => {
 
                 assert.equal(null, err);
@@ -203,7 +182,8 @@ app.use("/login", (req,res, next) => {
             })
 
         }else {console.log("The both password are not match");}
-        
+
+
     // login
     } else {
 
@@ -263,6 +243,7 @@ app.use("/login", (req,res, next) => {
 
 // create user account
 app.post("/login", (req,res, next) => {
+
 
     const client = new MongoClient(mongourl);
 
