@@ -279,8 +279,9 @@ app.use("/login", (req,res, next) => {
 
                     // For security reason, do not needed to give to must information to the user.
                     console.log("The username or password incorrect");
+                    res.status(200).render('login', {fail: true, message: `The username or password incorrect`, username: `${req.fields.username}`, username_new: ``, email:`` });
 
-                    res.status(200).redirect("/");
+                    // res.status(200).redirect("/");
 
                 }
     
