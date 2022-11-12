@@ -113,7 +113,7 @@ const passwordEncryption = (password, callback) => {
 app.get('/login', (req, res)=>{
     console.log("...Welcome to login page");
     //res.sendFile(__dirname + '/public/login.html');
-    res.status(200).render('login', {fail: false, message: ``, username: `test`, email:`` });
+    res.status(200).render('login', {fail: false, message: ``, username: ``, email:`` });
 
 });
 
