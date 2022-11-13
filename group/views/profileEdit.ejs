@@ -34,14 +34,24 @@
         </div>
 
         <div>
-            <button class="msg-btn" type="submit" onclick="">UPDATE</button>
+            <button class="msg-btn" type="submit" form="edit_profile_form" onclick="">UPDATE</button>
             <button class="follow-btn" type="submit" onclick="location.href='/logout'">Cancel</button>
-            <button class="delete-btn" type="submit" onclick="location.href='/delete'">Delete</button>
+            <button class="delete-btn" onclick="deleteConfirmation()">Delete</button>
             <form action="/profile" method="post" id="edit_profile_form"></form>
+
         </div>
     </div>
     </div>
     </div> 
+
+    <script>
+        function deleteConfirmation() {
+          if (confirm("Do you want to delete the account?") == true) {
+            location.href='/delete'
+          } else {}
+        }
+        </script>
+
 </body>
 
 </html>
