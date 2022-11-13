@@ -230,6 +230,7 @@ if (req.session.authenticated) {
             update_action["password"] = hashed;
         }
         if (Object.keys(update_action).length == 0){
+            res.status(200).redirect("profileEdit");
             console.log("Please insert the data");
         } else{
             const client = new MongoClient(mongourl);
