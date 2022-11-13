@@ -96,9 +96,7 @@ app.get('/home', (req, res) => {
 
             findDocument(db, {}, "item", (docs) => {
                 client.close();
-                for (var i of docs){
-                    res.status(200).render("home", { itemList : i });
-                }
+
                 // for (var i of docs){
                 //     res.status(200).render("home", { itemList : i });
                 // }
