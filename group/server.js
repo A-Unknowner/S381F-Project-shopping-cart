@@ -105,16 +105,37 @@ app.get('/home', (req, res) => {
     if (req.session.authenticated) {
         console.log(`Hello ${req.session.userid}, welcome back home`);
         const client = new MongoClient(mongourl);
-        client.connect((err) => {
-            assert.equal(null, err);
-            const db = client.db(dbName);
-
-            findDocument(db, {}, "item", (docs) => {
-                client.close();
-
-                res.status(200).render("home", { items : docs});
+        if (req.method == "GET" && typeof req.query.search != 'undefined') {
+            console.log("get");
+            let criteria = {};
+            criteria['product_name'] = new RegExp(`${req.query.search}`);
+            console.log(criteria);
+            client.connect((err) => {
+                assert.equal(null, err);
+                const db = client.db(dbName);
+                findDocument(db, criteria, "item", (docs) => {
+                    client.close();
+                    // for (var i of docs){
+                    //     res.status(200).render("home", { itemList : i });
+                    // }
+                    res.status(200).render("home", { items: docs });
+                });
             });
-        });
+        } else {
+            client.connect((err) => {
+                assert.equal(null, err);
+                const db = client.db(dbName);
+
+                findDocument(db, {}, "item", (docs) => {
+                    client.close();
+
+                    // for (var i of docs){
+                    //     res.status(200).render("home", { itemList : i });
+                    // }
+                    res.status(200).render("home", { items: docs });
+                });
+            });
+        }
 
     } else {
         console.log("No session recorded");
