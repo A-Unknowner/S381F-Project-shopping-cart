@@ -1,32 +1,19 @@
 <html>
 
-<head>
-    <title>Home</title>
-</head>
+    <head>
+        <title>Home</title>
+    </head>
 
-<body>
+    <body>
 
-    Home Page
+        Home Page
 
-    <br />
+        <br>
+        <button class="submit" type="submit" onclick="location.href='/profileEdit'" >Ediile</button>
+        <button class="submit" type="submit" onclick="location.href='/profile'" >Edit User Profile</button>
 
-    <button class="submit" type="submit" onclick="location.href='/profile'">Edit User Profile</button>
-
-    <button class="submit" type="submit" onclick="location.href='/logout'">Logout</button>
-    <br />
-
-<% for(var item of items){%>
-    <div style="border-style: solid; display: inline-block; margin:5px; padding: 5px; max-height: 600px; max-width: 600px;">
-        <img src="data:image/<%= item.image.type %>;base64,<%= item.image.base64 %>">
-        <div class="p-4">
-            <p class="tracking-wide text-sm font-bold text-gray-700"><%= item.product_name%></p>
-            <p class="text-3xl text-gray-900">$<%=item.price%></p>
-            <p class="text-gray-700"><%=item.stock%> stock</p>
-        </div>
-    </div>
+        <button class="submit" type="submit" onclick="location.href='/logout'" >Logout</button>
+        
+    </body>
     
-<%}%>
-
-</body>
-
 </html>
