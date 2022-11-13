@@ -19,6 +19,7 @@ const { Buffer } = require('safe-buffer');
 var bcrypt = require('bcryptjs');
 const { nextTick } = require('process');
 const GridFSBucket = require('mongodb/lib/gridfs-stream');
+const e = require('express');
 //Main Body
 app.set('view engine', 'ejs');
 app.use(formidable());
@@ -61,9 +62,11 @@ const deleteDocument = (db, criteria, collection, callback) => {
         callback(results);
     });
 }
-const updateDocument = (db, criteria, collection, callback) => {
-    cursor = db.collection(collection).updateOne(criteria, (error, results) => {
+const updateDocument = (db, criteria, update_action, collection, callback) => {
+    const updateDoc = {$set:update_action}
+    cursor = db.collection(collection).update(criteria, updateDoc, (error, results) => {
         if (error) throw error;
+        console.log(results);
         callback(results);
     });
 }
@@ -109,9 +112,6 @@ app.get('/home', (req, res) => {
             findDocument(db, {}, "item", (docs) => {
                 client.close();
 
-                // for (var i of docs){
-                //     res.status(200).render("home", { itemList : i });
-                // }
                 res.status(200).render("home", { items : docs});
             });
         });
@@ -166,6 +166,7 @@ app.get("/profileEdit", (req, res) => {
 });
 
 app.get("/delete", (req, res) => {
+
     if (req.session.authenticated) {
         console.log("Delete Message");
         const criteria = {};
@@ -176,13 +177,8 @@ app.get("/delete", (req, res) => {
             const db = client.db(dbName);
             deleteDocument(db, criteria, 'user', (docs) => {
                 client.close();
-
                 console.log("Account deleted");
-
-                //res.write("<script> alert ('Account deleted');</script>");
-                
                 res.status(200).redirect('/logout');
-
             });
         });
     } else {
@@ -190,10 +186,52 @@ app.get("/delete", (req, res) => {
     }
 });
 
-
+// update profile
 app.post("/profile", (req, res) => {
+if (req.session.authenticated) {
     console.log("Update user profile");
+    const criteria = {};
+    const update_action = {};
+    criteria["username"] = req.session.userid;
+    passwordEncryption(req.fields.password, (hashed) => {
+        var email_regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+        if (req.fields.username){
+            update_action["username"] = req.fields.username;
+        }
+        if (req.fields.email != "") {
+            if (req.fields.email.match(email_regex)) {
+                update_action["email"] = req.fields.email;
+            } else {
+                console.log("Invalid email");
+            }
+        }
+        if (req.fields.password != ""){
+            update_action["password"] = hashed;
+        }
+        if (Object.keys(update_action).length == 0){
+            console.log("Please insert the data");
+        } else{
+            const client = new MongoClient(mongourl);
+            client.connect((err) => {
+                assert.equal(null, err);
+                const db = client.db(dbName);
+                updateDocument(db, criteria, update_action, 'user', (docs) => {
+                    client.close();
+                    if (req.fields.username != ""){
+                        req.session.userid = req.fields.username;
+                    }
+                    console.log("Updated user profile");
+                    res.status(200).redirect("profileEdit");
+                });
+            })
+        }
+    });
+
+    } else {
+        res.status(200).redirect('/');
+    }
 })
+
 
 app.use("/login", (req, res, next) => {
     const client = new MongoClient(mongourl);
