@@ -399,10 +399,12 @@ app.post("/login", (req, res, next) => {
 
 });
 
+//css
+app.use(express.static("public"));
+
+//404 Not Found
 app.get('/*', (req, res)=>{
     res.status(404).render("NotFound", {message: `${req.path} - Unknown request!`})
 });
-
-app.use(express.static("public"));
 
 app.listen(process.env.PORT || 8099);
