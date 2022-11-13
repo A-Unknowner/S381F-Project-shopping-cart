@@ -1,32 +1,49 @@
 <html>
 
-    <head>
-        <title>Home</title>
-    </head>
+<head>
+    <title>Home</title>
+</head>
 
-    <body>
+<body>
 
-        Home Page
+    Home Page
 
-        <br>
-        <button class="submit" type="submit" onclick="location.href='/profileEdit'" >Ediile</button>
-        <button class="submit" type="submit" onclick="location.href='/profile'" >Edit User Profile</button>
+    <br />
+    <div>
+        <div style="margin-top: 5px; display: inline-block;">
+            <form method="get" action="" >
+                <input type="search" name="search" id="search" required/>
+                <input type="submit" value="Search"/>
+            </form>
+        </div>
+        <div style="display: inline-block; float: right;">
+            <button class="submit" type="submit" onclick="location.href='/profileEdit'">Ediile</button>
+            <button class="submit" type="submit" onclick="location.href='/profile'">Edit User Profile</button>
+            <button class="submit" type="submit" onclick="location.href='/logout'">Logout</button>
+        </div>
+    </div>
 
-        <button class="submit" type="submit" onclick="location.href='/logout'" >Logout</button>
-        
-        <br/>
+
+    <br />
 
     <% for(var item of items){%>
-        <div style="border-style: solid; display: inline-block; margin:5px; padding: 5px; max-height: 600px; max-width: 600px;">
-            <img src="data:image/<%= item.image.type %>;base64,<%= item.image.base64 %>" style="max-width: 200; max-height:200;">
+        <div
+            style="border-style: solid; display: inline-block; margin:5px; padding: 5px; max-height: 600px; max-width: 600px;">
+            <img src="data:image/<%= item.image.type %>;base64,<%= item.image.base64 %>"
+                style="max-width: 200; max-height:200;">
             <div class="p-4">
-                <p class="tracking-wide text-sm font-bold text-gray-700"><%= item.product_name%></p>
-                <p class="text-3xl text-gray-900">$<%=item.price%></p>
-                <p class="text-gray-700"><%=item.stock%> stock</p>
+                <p class="tracking-wide text-sm font-bold text-gray-700">
+                    <%= item.product_name%>
+                </p>
+                <p class="text-3xl text-gray-900">$<%=item.price%>
+                </p>
+                <p class="text-gray-700">
+                    <%=item.stock%> stock
+                </p>
             </div>
         </div>
-    
-    <%}%>
-    </body>
-    
+
+        <%}%>
+</body>
+
 </html>
