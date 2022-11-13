@@ -148,16 +148,9 @@ app.get('/home', (req, res) => {
     
             findDocument(db, {}, "item", (docs) => {
                 client.close();
-<<<<<<< HEAD
                 // for (var i of docs){
                 //     res.status(200).render("home", { itemList : i });
                 // }
-                
-=======
-                //for (var i of docs){
-                //    res.status(200).render("home", { itemList : i });
-                //}
->>>>>>> 94fe4abb186eea8eb918a92117d59236d4d6996c
                 res.status(200).render("home", { items : docs});
             });
         });
