@@ -132,10 +132,21 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
+    if (req.session.authenticated) {
 
-    console.log("Welcome to home page");
+        console.log("Welcome to home page");
 
-    res.status(200).render("home");
+        res.status(200).render("home");
+    } else {
+        res.status(200).render('login', {
+            fail: false,
+            message: ``,
+            username: ``,
+            username_new: ``,
+            password: ``,
+            email: ``
+        });
+    }
 
     //res.sendFile(__dirname + '/public/login.html');
 
@@ -155,19 +166,30 @@ app.get("/logout", (req, res) => {
 
 app.get("/profile", (req, res) => {
 
-    console.log("Welcome to edit user profile page");
-    const criteria = {};
-    criteria["username"] = req.session.userid;
-    const client = new MongoClient(mongourl);
-    client.connect((err) => {
-        assert.equal(null, err);
-        const db = client.db(dbName);
-        findDocument(db, criteria, 'user', (docs) => {
-            client.close();
-          res.status(200).render("profile",{user:docs[0]});  
+    if (req.session.authenticated) {
+        console.log("Welcome to edit user profile page");
+        const criteria = {};
+        criteria["username"] = req.session.userid;
+        const client = new MongoClient(mongourl);
+        client.connect((err) => {
+            assert.equal(null, err);
+            const db = client.db(dbName);
+            findDocument(db, criteria, 'user', (docs) => {
+                client.close();
+                res.status(200).render("profile", { user: docs[0] });
 
+            })
         })
-    })
+    } else {
+        res.status(200).render('login', {
+            fail: false,
+            message: ``,
+            username: ``,
+            username_new: ``,
+            password: ``,
+            email: ``
+        });
+    }
 });
 
 
@@ -403,8 +425,8 @@ app.post("/login", (req, res, next) => {
 app.use(express.static("public"));
 
 //404 Not Found
-app.get('/*', (req, res)=>{
-    res.status(404).render("NotFound", {message: `${req.path} - Unknown request!`})
+app.get('/*', (req, res) => {
+    res.status(404).render("NotFound", { message: `${req.path} - Unknown request!` })
 });
 
 app.listen(process.env.PORT || 8099);
