@@ -134,17 +134,34 @@ app.get('/login', (req, res) => {
 
 });
 
+
 app.get('/home', (req, res) => {
+
     console.log("Welcome to home page");
+
     if (req.session.authenticated) {
+
         console.log(`Hello ${req.session.userid}, welcome back home`);
-        res.status(200).render("home");
+        const client = new MongoClient(mongourl);
+
+
+        client.connect((err) => {
+
+            assert.equal(null, err);
+            const db = client.db(dbName);
+    
+            findDocument(db, {}, "item", (docs) => {
+                client.close();
+                for (var i of docs){
+                    res.status(200).render("home", { itemList : i });
+                }
+            });
+        });
+
     } else {
         console.log("No session recorded");
         res.status(200).redirect('/');
     }
-
-    //res.sendFile(__dirname + '/public/login.html');
 
 })
 
