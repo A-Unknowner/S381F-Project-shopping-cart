@@ -165,11 +165,15 @@ app.get("/profileEdit", (req, res) => {
     }
 });
 
+app.get("/delete", (req, res) => {
+
+    console.log("Delete Message");
+
+});
+
 app.post("/profile", (req, res) => {
     console.log("Update user profile");
 })
-
-
 
 app.use("/login", (req, res, next) => {
     const client = new MongoClient(mongourl);
