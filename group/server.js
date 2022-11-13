@@ -81,6 +81,16 @@ const passwordEncryption = (password, callback) => {
     })
     console.log("Encryption finished");
 }
+
+const to_base64 = (data, callback) => {
+    callback(new Buffer.from(data).toString('base64'));
+}
+//update image
+app.post('/updateImage', (req, res) => {
+    const client = new MongoClient(mongourl);
+    criteria = {};
+});
+
 //login
 app.get('/login', (req, res) => {
     console.log("Welcome to login page");
