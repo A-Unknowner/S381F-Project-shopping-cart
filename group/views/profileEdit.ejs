@@ -17,31 +17,40 @@
         <div style="padding-top:80px;">
         <input type="file" accept="image/*" onchange="loadFile(event)">
         </div>
-
-        <div class="profile-name" >
+        <form action="/profile" method="post" id="edit_profile_form">
+        <div class="emailcss" >
             Username :
-            <input placeholder="  <%= user.username %> ">     
+            <input name="username" id="username" placeholder="  <%= user.username %> ">     
         </div>
 
         <div class ="emailcss">Email :
-        <input placeholder=" <%= user.email %>">   
+        <input name="email" id="email" placeholder=" <%= user.email %>">   
         </div>
 
-        <div class="rolecss">
-            <label>Role :
-                <input placeholder="  <%= user.role %>">  
+        <div class="passwordcss">
+            <label>Password :
+                <input name="password" id="password" >  
             </label>
         </div>
 
-        <div>
-            <button class="msg-btn" type="submit" onclick="">UPDATE</button>
-            <button class="follow-btn" type="submit" onclick="location.href='/logout'">Cancel</button>
-            <button class="delete-btn" type="submit" onclick="location.href='/delete'">Delete</button>
-            <form action="/profile" method="post" id="edit_profile_form"></form>
-        </div>
+        <button class="msg-btn" type="submit" form="edit_profile_form" onclick="">UPDATE</button>
+        <button class="follow-btn" type="submit" onclick="location.href='/logout'">Cancel</button>
+        <button class="delete-btn" onclick="deleteConfirmation()">Delete</button>
+        
+        </form>
+   
     </div>
     </div>
     </div> 
+
+    <script>
+        function deleteConfirmation() {
+          if (confirm("Do you want to delete the account?") == true) {
+            location.href='/delete'
+          } else {}
+        }
+        </script>
+
 </body>
 
 </html>
