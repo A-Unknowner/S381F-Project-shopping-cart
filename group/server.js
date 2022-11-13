@@ -145,9 +145,32 @@ app.get("/profile", (req, res) => {
         res.status(200).redirect('/');
     }
 });
+
+app.get("/profileEdit", (req, res) => {
+    if (req.session.authenticated) {
+        console.log("Welcome to edit user profile page");
+        const criteria = {};
+        criteria["username"] = req.session.userid;
+        const client = new MongoClient(mongourl);
+        client.connect((err) => {
+            assert.equal(null, err);
+            const db = client.db(dbName);
+            findDocument(db, criteria, 'user', (docs) => {
+                client.close();
+                res.status(200).render("profileEdit", { user: docs[0] });
+            })
+        })
+    } else {
+        res.status(200).redirect('/');
+    }
+});
+
 app.post("/profile", (req, res) => {
     console.log("Update user profile");
 })
+
+
+
 app.use("/login", (req, res, next) => {
     const client = new MongoClient(mongourl);
     // sign up
