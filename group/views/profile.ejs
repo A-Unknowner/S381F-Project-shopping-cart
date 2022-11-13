@@ -22,7 +22,7 @@
    
      
             <div class="cover-photo">
-                <img src="" class="profile">
+                <img src="data:image/<%= user.icon.type %>;base64,<%= user.icon.base64 %>" class="profile">
               </div>
 
               <div class="profile-name">  <%= user.username %></div>
@@ -45,7 +45,6 @@
                     <button class="follow-btn" type="submit" onclick="location.href='/logout'">Logout</button>
 
                     <form action="/profile" method="post" id="edit_profile_form"></form>
-
                 </div>
             </div>
         </div>
