@@ -14,6 +14,19 @@
 
         <button class="submit" type="submit" onclick="location.href='/logout'" >Logout</button>
         
+        <br/>
+
+    <% for(var item of items){%>
+        <div style="border-style: solid; display: inline-block; margin:5px; padding: 5px; max-height: 600px; max-width: 600px;">
+            <img src="data:image/<%= item.image.type %>;base64,<%= item.image.base64 %>" style="max-width: 200; max-height:200;">
+            <div class="p-4">
+                <p class="tracking-wide text-sm font-bold text-gray-700"><%= item.product_name%></p>
+                <p class="text-3xl text-gray-900">$<%=item.price%></p>
+                <p class="text-gray-700"><%=item.stock%> stock</p>
+            </div>
+        </div>
+    
+    <%}%>
     </body>
     
 </html>
