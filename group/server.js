@@ -270,14 +270,17 @@ app.use("/login", (req, res, next) => {
                 client.close();
                 if (docs.length != 0) {
                     let auth_password = "";
+                    let user_name = ""
                     for (var i of docs) {
                         auth_password = i.password;
+                        user_name = i.username;
                     }
                     bcrypt.compare(req.fields.password, auth_password, (err, result) => {
                         assert.equal(null, err);
                         if (result == true) {
                             req.session.authenticated = true;
-                            req.session.userid = req.fields.username;
+                            console.log(user_name);
+                            req.session.userid = user_name;
                             res.status(200).redirect("/");
                         } else {
                             req.session.authenticated = false;
