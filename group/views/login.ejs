@@ -26,7 +26,7 @@
                 </label>
             </form>
 
-            <h5 class="err-mes"><%= message %></h5>
+            <h5 class="err-mes" id="err-mes"></h5>
 
             <button class="submit" type="submit" form="login_form">Sign In</button>
             <!-- <a href="forgetPassword.php">
@@ -83,7 +83,8 @@
     <script>
         var password = document.getElementById("new_acct_password")
             , confirm_password = document.getElementById("new_acct_confrim_password")
-            , signInOrUp = document.getElementById("signInOrUp");
+            , signInOrUp = document.getElementById("signInOrUp")
+            , err_mes = document.getElementById("err-mes");
 
         function validatePassword() {
             if (password.value != confirm_password.value) {
@@ -100,6 +101,8 @@
         if(<%= fail %>){
             if("<%= username%>" == ""){
             signInOrUp.className += " s-signup";
+            }else{
+                err_mes.innerHTML = "<%= message %>";
             }
             alert("<%= message %>");
         }
