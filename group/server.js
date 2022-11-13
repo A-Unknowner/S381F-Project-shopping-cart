@@ -55,6 +55,13 @@ const findDocument = (db, criteria, collection, callback) => {
         callback(docs);
     });
 }
+const deleteDocument = (db, criteria, collection, callback) => {
+    cursor = db.collection(collection).deleteOne(criteria, (error, results) => {
+        if (error) throw error;
+        callback(results);
+    });
+}
+
 const passwordEncryption = (password, callback) => {
     const salt_round = 10;
     bcrypt.genSalt(salt_round, (saltError, salt) => {
