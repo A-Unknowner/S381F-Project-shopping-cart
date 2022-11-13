@@ -98,7 +98,7 @@
         confirm_password.onchange = validatePassword;
 
         if(<%= fail %>){
-            if(<%= username%> == ""){
+            if("<%= username%>" == ""){
             signInOrUp.className += " s-signup";
             }
             alert("<%= message %>");
