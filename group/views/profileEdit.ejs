@@ -9,47 +9,80 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" style="padding-left: 15px; padding-right: 15px;text-align: center;">
 
         <div class="cover-photo">
-            <img src="data:image/<%= user.icon.type %>;base64,<%= user.icon.base64 %>" class="profile">
+            <img src="data:image/<%= user.icon.type %>;base64,<%= user.icon.base64 %>" id="icon" class="profile">
         </div>
         <div style="padding-top:80px;">
-        <input type="file" accept="image/*" onchange="loadFile(event)">
+            <input type="file" accept="image/*" id="image">
+            <button style="margin: 0px; float: right;display: none;" id="original">user original</button>
         </div>
         <form action="/profile" method="post" id="edit_profile_form">
-        <div class="emailcss" >
-            Username :
-            <input name="username" id="username" placeholder="  <%= user.username %> ">     
-        </div>
+            <div class="emailcss">
+                Username :
+                <input name="username" id="username" placeholder="  <%= user.username %> ">
+            </div>
 
-        <div class ="emailcss">Email :
-        <input name="email" id="email" placeholder=" <%= user.email %>">   
-        </div>
+            <div class="emailcss">Email :
+                <input name="email" id="email" placeholder=" <%= user.email %>">
+            </div>
 
-        <div class="passwordcss">
-            <label>Password :
-                <input name="password" id="password" >  
-            </label>
-        </div>
-
-        <button class="msg-btn" type="submit" form="edit_profile_form" onclick="">UPDATE</button>
-        <button class="follow-btn" type="button" onclick="location.href='/profile'">Cancel</button>
-        <button class="delete-btn" onclick="deleteConfirmation()">Delete</button>
-        
+            <div class="passwordcss">
+                <label>Password :
+                    <input name="password" id="password">
+                </label>
+            </div>
         </form>
-   
+        <button class="msg-btn" form="edit_profile_form">UPDATE</button>
+        <button class="follow-btn" onclick="location.href='/profile'">Cancel</button>
+        <button class="delete-btn" onclick="deleteConfirmation()">Delete</button>
+
     </div>
     </div>
-    </div> 
+    </div>
+    <div id="asd"></div>
 
     <script>
         function deleteConfirmation() {
-          if (confirm("Do you want to delete the account?") == true) {
-            location.href='/delete'
-          } else {}
+            if (confirm("Do you want to delete the account?") == true) {
+                location.href = '/delete'
+            } else { }
         }
-        </script>
+
+        var image = document.getElementById("icon");
+        var original_button = document.getElementById("original")
+        var select_image = document.getElementById("image");
+        var original = image.src;
+        var type;
+        var base64;
+        original_button.addEventListener("click", function(){
+            image.src = original;
+            select_image.value = "";
+            original_button.style.display = "none";
+            type = "<%= user.icon.type %>";
+            base64 = "<%= user.icon.base64 %>";
+        });
+        function readFile() {
+
+            if (!this.files || !this.files[0]) return;
+
+            const FR = new FileReader();
+
+            FR.addEventListener("load", function (evt) {
+                type = evt.target.result.split("data:image/")[1].split(";base64,")[0];
+                base64 = evt.target.result.split("data:image/")[1].split(";base64,")[1];
+                image.src = evt.target.result;
+                original_button.style.display = "block";
+                // console.log(base64);
+            });
+
+            FR.readAsDataURL(this.files[0]);
+
+        }
+
+        select_image.addEventListener("change", readFile);
+    </script>
 
 </body>
 
