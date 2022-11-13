@@ -399,6 +399,10 @@ app.post("/login", (req, res, next) => {
 
 });
 
+app.get('/*', (req, res)=>{
+    res.status(404).render("NotFound", {message: `${req.path} - Unknown request!`})
+});
+
 app.use(express.static("public"));
 
 app.listen(process.env.PORT || 8099);
