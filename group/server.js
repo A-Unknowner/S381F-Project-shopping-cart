@@ -132,12 +132,29 @@ app.get('/login', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
+
+    console.log("Welcome to home page");
+
     if (req.session.authenticated) {
 
-        console.log("Welcome to home page");
+        console.log(`Hello ${req.session.userid}, welcome back home`);
+        const client = new MongoClient(mongourl);
 
-        res.status(200).render("home");
-    } else {
+
+        client.connect((err) => {
+
+            assert.equal(null, err);
+            const db = client.db(dbName);
+    
+            findDocument(db, {}, "item", (docs) => {
+                client.close();
+                for (var i of docs){
+                    res.status(200).render("home", { itemList : i });
+                }
+            });
+        });
+
+    }else {
         res.status(200).render('login', {
             fail: false,
             message: ``,
@@ -195,11 +212,29 @@ app.get("/profile", (req, res) => {
 
 
 app.post("/profile", (req, res) => {
-
     console.log("Update user profile");
-
 })
 
+app.get("/profileEdit", (req, res) => {
+    const client = new MongoClient(mongourl);
+    client.connect((err) => {
+        assert.equal(null, err);
+        console.log("Connected successfully to server");
+        const db = client.db(dbName);
+        
+        const criteria = {};
+        criteria["username"] = req.session.userid;
+        findDocument(db, criteria, 'user', (docs) => {
+            client.close();
+            res.status(200).render("profileEdit", { user: docs[0] });
+console.log("Welcome to edit user profile edit page");
+        })
+    })
+});
+
+app.post("/profileEdit", (req, res) => {
+    console.log("profiletesting");
+})
 
 app.use("/login", (req, res, next) => {
 

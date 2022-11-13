@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/profile.css">
-
-    <title>Profile</title>
+    <link rel="stylesheet" href="/css/profileEdit.css">
 
 </head>
 
 <body>
+<!-- 
+    <br>
+
     <div class="container">
 
         <div class="cover-photo">
@@ -18,13 +19,17 @@
         </div>
 
         <div class="profile-name" style="padding-bottom: 30px;">
-            <%= user.username %>
+            <%= user.username %> 
+
+
+
+            12312312313
         </div>
 
         <div>
-            <label>Email :
-                <%= user.email %>
-            </label>
+        <input placeholder=" <%= user.email %>">
+               
+            
         </div>
 
         <div>
@@ -34,12 +39,14 @@
         </div>
 
         <div>
-            <button class="msg-btn" type="button" onclick="location.href='/profileEdit'">edit user Profile</button>
-            <button class="follow-btn" type="submit" onclick="location.href='/logout'">Logout</button>
+            <button class="msg-btn" type="submit" onclick="">UPDATE</button>
+            <button class="follow-btn" type="submit" onclick="location.href='/logout'">Cancel</button>
+            <button class="delete-btn" type="submit" onclick="">Delete</button>
+            <form action="/profile" method="post" id="edit_profile_form"></form>
         </div>
     </div>
-    
-   
+    </div>
+    </div> -->
 </body>
 
 </html>
