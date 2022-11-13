@@ -9,32 +9,27 @@
 </head>
 
 <body>
-<!-- 
-    <br>
-
     <div class="container">
 
         <div class="cover-photo">
             <img src="data:image/<%= user.icon.type %>;base64,<%= user.icon.base64 %>" class="profile">
         </div>
-
-        <div class="profile-name" style="padding-bottom: 30px;">
-            <%= user.username %> 
-
-
-
-            12312312313
+        <div style="padding-top:80px;">
+        <input type="file" accept="image/*" onchange="loadFile(event)">
         </div>
 
-        <div>
-        <input placeholder=" <%= user.email %>">
-               
-            
+        <div class="profile-name" >
+            Username :
+            <input placeholder="  <%= user.username %> ">     
         </div>
 
-        <div>
+        <div class ="emailcss">Email :
+        <input placeholder=" <%= user.email %>">   
+        </div>
+
+        <div class="rolecss">
             <label>Role :
-                <%= user.role %>
+                <input placeholder="  <%= user.role %>">  
             </label>
         </div>
 
@@ -46,7 +41,7 @@
         </div>
     </div>
     </div>
-    </div> -->
+    </div> 
 </body>
 
 </html>
