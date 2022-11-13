@@ -155,6 +155,7 @@ app.get('/home', (req, res) => {
                 // for (var i of docs){
                 //     res.status(200).render("home", { itemList : i });
                 // }
+                
                 res.status(200).render("home", { items : docs});
             });
         });
