@@ -314,6 +314,70 @@ app.post("/login", (req, res, next) => {
         })
     });
 });
+
+app.get('/api/user/:name', function(req,res)  {
+    console.log("...Rest Api");
+	console.log("name: " + req.params.name);
+    if (req.params.name) {
+        let criteria = {};
+        criteria['username'] = req.params.name;
+        const client = new MongoClient(mongourl);
+        client.connect((err) => {
+            assert.equal(null, err);
+            console.log("Connected successfully to server");
+            const db = client.db(dbName);
+
+            findDocument(db, criteria, "user", (docs) => {
+                client.close();
+                console.log("Closed DB connection");
+                res.status(200).json(docs);
+            });
+        });
+    } else {
+        res.status(500).json({"error": "missing name"});
+    }
+});
+
+app.get('/api/item', function(req,res)  {
+    console.log("...Rest Api");
+        let criteria = {};
+        const client = new MongoClient(mongourl);
+        client.connect((err) => {
+            assert.equal(null, err);
+            console.log("Connected successfully to server");
+            const db = client.db(dbName);
+
+            findDocument(db, criteria, "item", (docs) => {
+                client.close();
+                console.log("Closed DB connection");
+                res.status(200).json(docs);
+            });
+        });
+});
+
+app.get('/api/item/:product_name', function(req,res)  {
+    console.log("...Rest Api");
+	console.log("Product name: " + req.params.product_name);
+    if (req.params.product_name) {
+        let criteria = {};
+        criteria['product_name'] = req.params.product_name;
+        const client = new MongoClient(mongourl);
+        client.connect((err) => {
+            assert.equal(null, err);
+            console.log("Connected successfully to server");
+            const db = client.db(dbName);
+
+            findDocument(db, criteria, "item", (docs) => {
+                client.close();
+                console.log("Closed DB connection");
+                res.status(200).json(docs);
+            });
+        });
+    } else {
+        res.status(500).json({"error": "missing product name"});
+    }
+});
+
 //css
 app.use(express.static("public"));
 //404 Not Found
