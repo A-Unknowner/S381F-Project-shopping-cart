@@ -56,7 +56,7 @@
         var original = image.src;
         var type;
         var base64;
-        original_button.addEventListener("click", function(){
+        original_button.addEventListener("click", function () {
             image.src = original;
             select_image.value = "";
             original_button.style.display = "none";
@@ -80,8 +80,20 @@
             FR.readAsDataURL(this.files[0]);
 
         }
-
         select_image.addEventListener("change", readFile);
+
+        function upload() {
+            fetch('https://reqbin.com/echo/post/json', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "type": `${type}`, "base64": `${base64}` })
+            })
+                .then(response => response.json())
+                .then(response => console.log(JSON.stringify(response)))
+        }
     </script>
 
 </body>
