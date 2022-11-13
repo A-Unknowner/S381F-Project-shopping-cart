@@ -166,10 +166,30 @@ app.get("/profileEdit", (req, res) => {
 });
 
 app.get("/delete", (req, res) => {
+    if (req.session.authenticated) {
+        console.log("Delete Message");
+        const criteria = {};
+        criteria["username"] = req.session.userid;
+        const client = new MongoClient(mongourl);
+        client.connect((err) => {
+            assert.equal(null, err);
+            const db = client.db(dbName);
+            deleteDocument(db, criteria, 'user', (docs) => {
+                client.close();
 
-    console.log("Delete Message");
+                console.log("Account deleted");
 
+                //res.write("<script> alert ('Account deleted');</script>");
+                
+                res.status(200).redirect('/logout');
+
+            });
+        });
+    } else {
+        res.status(200).redirect('/');
+    }
 });
+
 
 app.post("/profile", (req, res) => {
     console.log("Update user profile");
