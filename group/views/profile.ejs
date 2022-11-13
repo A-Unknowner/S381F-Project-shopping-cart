@@ -1,19 +1,60 @@
 <html>
 
-    <head> </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="profile.css">
+    <title>Profile</title>
+</head>
 
-    <body> Edit User Profile Page 
 
-        <br>
+<body> 
 
-        <button class="submit" type="submit" onclick="location.href='/home'" >Home</button>
 
-        <button class="submit" type="submit" onclick="location.href='/logout'" >Logout</button>
 
-        <form action="/profile" method="post" id="edit_profile_form"></form>
-        
-        <button class="submit" type="submit" form="edit_profile_form">Confirm</button>
 
-    </body>
+
+    <br>
+
+
+    <div class="container">
+   
+     
+            <div class="cover-photo">
+                <img src="" class="profile">
+              </div>
+
+              <div class="profile-name">  <%= user.username %></div>
+
+                <div>
+                    <label>Email :
+                        <%= user.email %>
+                    </label>
+                </div>
+
+                <div>
+                    <label>Role :
+                        <%= user.role %>
+                    </label>
+                </div>
+                
+                <div>
+                    <button class="msg-btn" type="submit" onclick="location.href='/home'">edit user Profile</button>
+
+                    <button class="follow-btn" type="submit" onclick="location.href='/logout'">Logout</button>
+
+                    <form action="/profile" method="post" id="edit_profile_form"></form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+
+   
+ 
+
 
 </html>

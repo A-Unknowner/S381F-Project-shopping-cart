@@ -3,13 +3,13 @@
 const url = require('url');
 const assert = require('assert');
 //File
-const fs = require('fs'); 
+const fs = require('fs');
 const formidable = require('express-formidable');
 //MongoDB
 const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID;
 
-const mongourl = 'mongodb+srv://testuser0123:PAssw0rd@cluster0.xz69qgb.mongodb.net/?retryWrites=true&w=majority'; 
+const mongourl = 'mongodb+srv://testuser0123:PAssw0rd@cluster0.xz69qgb.mongodb.net/?retryWrites=true&w=majority';
 
 const dbName = 'group_project';
 
@@ -24,6 +24,7 @@ const { Buffer } = require('safe-buffer');
 // Password encryption algorithm
 var bcrypt = require('bcryptjs');
 const { nextTick } = require('process');
+const GridFSBucket = require('mongodb/lib/gridfs-stream');
 
 
 //Main Body
@@ -34,7 +35,7 @@ app.use(formidable());
 app.use(bodyParser.json());
 //Cookie
 app.use(session({
-    userid: "session",  
+    userid: "session",
     keys: ['th1s!sA5ecretK3y1'],
     maxAge: 60 * 1000 * 10 // The session will be expired 10 mins later
 }));
@@ -42,11 +43,11 @@ app.use(session({
 
 
 //handling requests
-app.get('/', (req, res)=>{
-    if(!req.session.authenticated){
+app.get('/', (req, res) => {
+    if (!req.session.authenticated) {
         console.log("...Not authenticated; directing to login");
         res.status(200).redirect("/login");
-    } else{
+    } else {
 
         console.log("...Hello, welcome back");
         res.status(200).redirect("/home");
@@ -80,7 +81,7 @@ const findDocument = (db, criteria, collection, callback) => {
 
         assert.equal(null, err);
 
-  
+
         callback(docs);
 
     });
@@ -110,22 +111,24 @@ const passwordEncryption = (password, callback) => {
 }
 
 //login
-app.get('/login', (req, res)=>{
-    if(req.session.authenticated){
+app.get('/login', (req, res) => {
+    if (req.session.authenticated) {
         console.log("...Hello, welcome back");
         res.status(200).redirect("/home");
         console.log("...Welcome to login page");
-    } else{
+    } else {
 
-        res.status(200).render('login', {fail: false, 
-                                         message: ``, 
-                                         username: ``, 
-                                         username_new: ``, 
-                                         password: ``, 
-                                         email:`` });
+        res.status(200).render('login', {
+            fail: false,
+            message: ``,
+            username: ``,
+            username_new: ``,
+            password: ``,
+            email: ``
+        });
 
     }
-   
+
 });
 
 app.get('/home', (req, res) => {
@@ -153,11 +156,21 @@ app.get("/logout", (req, res) => {
 app.get("/profile", (req, res) => {
 
     console.log("Welcome to edit user profile page");
+    const criteria = {};
+    criteria["username"] = req.session.userid;
+    const client = new MongoClient(mongourl);
+    client.connect((err) => {
+        assert.equal(null, err);
+        const db = client.db(dbName);
+        findDocument(db, criteria, 'user', (docs) => {
+            client.close();
+          res.status(200).render("profile",{user:docs[0]});  
 
-    res.status(200).render("profile");
-
-
+        })
+    })
 });
+
+
 
 app.post("/profile", (req, res) => {
 
@@ -166,15 +179,15 @@ app.post("/profile", (req, res) => {
 })
 
 
-app.use("/login", (req,res, next) => {
+app.use("/login", (req, res, next) => {
 
     const client = new MongoClient(mongourl);
 
     // sign up
     if (req.fields.new_acct_uname) {
 
-        if (req.fields.new_acct_password == 
-            req.fields.new_acct_confrim_password){
+        if (req.fields.new_acct_password ==
+            req.fields.new_acct_confrim_password) {
 
             client.connect((err) => {
 
@@ -186,10 +199,10 @@ app.use("/login", (req,res, next) => {
 
                     client.close();
 
-                    if (docs.length != 0){
+                    if (docs.length != 0) {
 
                         var email_array = [];
-                    
+
                         var username_array = [];
 
                         for (var i of docs) {
@@ -201,43 +214,49 @@ app.use("/login", (req,res, next) => {
                         }
 
                         if (email_array.includes(req.fields.new_email) == true &&
-                            username_array.includes(req.fields.new_acct_uname) == false){
+                            username_array.includes(req.fields.new_acct_uname) == false) {
 
                             console.log("This email already used");
-                            res.status(200).render('login', {fail: true, 
-                                                             message: `This email already used`, 
-                                                             username: ``, 
-                                                             username_new: `${req.fields.new_acct_uname}`, 
-                                                             password:``,
-                                                             email:`${req.fields.new_email}` });
+                            res.status(200).render('login', {
+                                fail: true,
+                                message: `This email already used`,
+                                username: ``,
+                                username_new: `${req.fields.new_acct_uname}`,
+                                password: ``,
+                                email: `${req.fields.new_email}`
+                            });
 
 
                         } else if (email_array.includes(req.fields.new_email) == false &&
-                                   username_array.includes(req.fields.new_acct_uname) == true){
-                            
+                            username_array.includes(req.fields.new_acct_uname) == true) {
+
                             console.log("This username already used");
-                            res.status(200).render('login', {fail: true, 
-                                                             message: `This username already used`, 
-                                                             username: ``, 
-                                                             username_new: `${req.fields.new_acct_uname}`, 
-                                                             password:``,
-                                                             email:`${req.fields.new_email}` });
+                            res.status(200).render('login', {
+                                fail: true,
+                                message: `This username already used`,
+                                username: ``,
+                                username_new: `${req.fields.new_acct_uname}`,
+                                password: ``,
+                                email: `${req.fields.new_email}`
+                            });
 
 
                         } else if (email_array.includes(req.fields.new_email) == true &&
-                                   username_array.includes(req.fields.new_acct_uname) == true){
+                            username_array.includes(req.fields.new_acct_uname) == true) {
 
                             console.log("This username and email already used");
-                            res.status(200).render('login', {fail: true, 
-                                                             message: `This username and email already used`, 
-                                                             username: ``, 
-                                                             username_new: `${req.fields.new_acct_uname}`, 
-                                                             password:``, 
-                                                             email:`${req.fields.new_email}` });
+                            res.status(200).render('login', {
+                                fail: true,
+                                message: `This username and email already used`,
+                                username: ``,
+                                username_new: `${req.fields.new_acct_uname}`,
+                                password: ``,
+                                email: `${req.fields.new_email}`
+                            });
 
                         } else if (email_array.includes(req.fields.new_email) == false &&
-                                   username_array.includes(req.fields.new_acct_uname) == false){
-                            
+                            username_array.includes(req.fields.new_acct_uname) == false) {
+
                             next();
 
                         }
@@ -247,26 +266,26 @@ app.use("/login", (req,res, next) => {
 
             })
 
-        }else {console.log("The both password are not match");}
+        } else { console.log("The both password are not match"); }
 
 
-    // login
+        // login
     } else {
 
         client.connect((err) => {
 
             let criteria = {};
-           
+
             var email_regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
 
-            if (req.fields.username.match(email_regex)){
+            if (req.fields.username.match(email_regex)) {
 
                 criteria["email"] = req.fields.username;
 
-            }else{
+            } else {
 
                 criteria["username"] = req.fields.username;
-        
+
             }
             assert.equal(null, err);
 
@@ -280,7 +299,7 @@ app.use("/login", (req,res, next) => {
 
                     let auth_password = "";
 
-                    for (var i of docs){
+                    for (var i of docs) {
 
                         auth_password = i.password;
                     }
@@ -297,25 +316,27 @@ app.use("/login", (req,res, next) => {
 
                             res.status(200).redirect("/");
 
-                        }else {
+                        } else {
 
                             req.session.authenticated = false;
 
                             // For security reason, do not needed to give to must information to the user.
                             console.log("The username or password incorrect");
 
-                            res.status(200).render('login', {fail: true, 
-                                                             message: `The username or password incorrect`, 
-                                                             username: `${req.fields.username}`, 
-                                                             username_new: ``, 
-                                                             password: `${req.fields.password}`, 
-                                                             email:`` });
+                            res.status(200).render('login', {
+                                fail: true,
+                                message: `The username or password incorrect`,
+                                username: `${req.fields.username}`,
+                                username_new: ``,
+                                password: `${req.fields.password}`,
+                                email: ``
+                            });
 
-                            }
+                        }
 
-                    }); 
+                    });
 
-                    
+
 
                 } else {
 
@@ -323,26 +344,28 @@ app.use("/login", (req,res, next) => {
 
                     // For security reason, do not needed to give to must information to the user.
                     console.log("The username or password incorrect");
-                    res.status(200).render('login', {fail: true, 
-                                                     message: `The username or password incorrect`, 
-                                                     username: `${req.fields.username}`, 
-                                                     username_new: ``, 
-                                                     password: `${req.fields.password}`, 
-                                                     email:`` });
+                    res.status(200).render('login', {
+                        fail: true,
+                        message: `The username or password incorrect`,
+                        username: `${req.fields.username}`,
+                        username_new: ``,
+                        password: `${req.fields.password}`,
+                        email: ``
+                    });
 
                     // res.status(200).redirect("/");
 
                 }
-    
+
             });
- 
+
         });
 
     }
 });
 
 // create user account
-app.post("/login", (req,res, next) => {
+app.post("/login", (req, res, next) => {
 
     const client = new MongoClient(mongourl);
 
@@ -358,9 +381,9 @@ app.post("/login", (req,res, next) => {
 
         client.connect((err) => {
 
-        assert.equal(null, err);
+            assert.equal(null, err);
 
-        const db = client.db(dbName);
+            const db = client.db(dbName);
 
             InsertDocument(db, criteria, "user", (docs) => {
 
