@@ -10,47 +10,42 @@
 
 </head>
 
-
-<body> 
+<body>
 
     <br>
 
     <div class="container">
-   
-     
-            <div class="cover-photo">
-                <img src="data:image/<%= user.icon.type %>;base64,<%= user.icon.base64 %>" class="profile">
-              </div>
 
-              <div class="profile-name">  <%= user.username %></div>
+        <div class="cover-photo">
+            <img src="data:image/<%= user.icon.type %>;base64,<%= user.icon.base64 %>" class="profile">
+        </div>
 
-                <div>
-                    <label>Email :
-                        <%= user.email %>
-                    </label>
-                </div>
+        <div class="profile-name">
+            <%= user.username %>
+        </div>
 
-                <div>
-                    <label>Role :
-                        <%= user.role %>
-                    </label>
-                </div>
-                
-                <div>
-                    <button class="msg-btn" type="submit" onclick="location.href='/home'">edit user Profile</button>
+        <div>
+            <label>Email :
+                <%= user.email %>
+            </label>
+        </div>
 
-                    <button class="follow-btn" type="submit" onclick="location.href='/logout'">Logout</button>
+        <div>
+            <label>Role :
+                <%= user.role %>
+            </label>
+        </div>
 
-                    <form action="/profile" method="post" id="edit_profile_form"></form>
-                </div>
-            </div>
+        <div>
+            <button class="msg-btn" type="submit" onclick="location.href='/home'">edit user Profile</button>
+
+            <button class="follow-btn" type="submit" onclick="location.href='/logout'">Logout</button>
+
+            <form action="/profile" method="post" id="edit_profile_form"></form>
         </div>
     </div>
+    </div>
+    </div>
 </body>
-
-
-   
- 
-
 
 </html>
