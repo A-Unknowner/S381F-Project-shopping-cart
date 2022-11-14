@@ -107,7 +107,7 @@
         if (<%= fail %>) {
             if ("<%= username%>" == "") {
                 signInOrUp.className += " s-signup";
-                document.getElementById("sign-up-err-mes")
+                document.getElementById("sign-up-err-mes").innerHTML = "<%= message %>";
             } else {
                 document.getElementById("sign-in-err-mes").innerHTML = "<%= message %>";
             }
