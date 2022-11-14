@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
 
     <title>Login</title>
-    
+
 </head>
 
 
@@ -20,7 +20,7 @@
             <form action="/login" method="post" id="login_form">
                 <label>
                     <span>Email/UserName</span>
-                    <input type="text" name="username" id="username" required value="<%= username %>"/>
+                    <input type="text" name="username" id="username" required value="<%= username %>" />
                 </label>
                 <label>
                     <span>Password</span>
@@ -28,7 +28,7 @@
                 </label>
             </form>
 
-            <h5 class="err-mes" id="err-mes"></h5>
+            <h5 class="err-mes" id="sign-in-err-mes"></h5>
 
             <button class="submit" type="submit" form="login_form">Sign In</button>
             <!-- <a href="forgetPassword.php">
@@ -56,11 +56,12 @@
                 <form action="/login" method="post" id="signUp_form">
                     <label>
                         <span>UserName</span>
-                        <input type="text" name="new_acct_uname" id="new_acct_uname" required value="<%= username_new %>"/>
+                        <input type="text" name="new_acct_uname" id="new_acct_uname" required
+                            value="<%= username_new %>" />
                     </label>
                     <label>
                         <span>Email</span>
-                        <input type="email" name="new_email" id="new_email" required value="<%= email %>"/>
+                        <input type="email" name="new_email" id="new_email" required value="<%= email %>" />
                     </label>
                     <label>
                         <span>Password</span>
@@ -68,9 +69,13 @@
                     </label>
                     <label>
                         <span>Confirm Password</span>
-                        <input type="password" name="new_acct_confrim_password" id="new_acct_confrim_password" required />
+                        <input type="password" name="new_acct_confrim_password" id="new_acct_confrim_password"
+                            required />
                     </label>
                 </form>
+
+                <h5 class="err-mes" id="sign-up-err-mes"></h5>
+
                 <button type="submit" class="submit" form="signUp_form">Sign Up Now</button>
             </div>
         </div>
@@ -85,8 +90,7 @@
     <script>
         var password = document.getElementById("new_acct_password")
             , confirm_password = document.getElementById("new_acct_confrim_password")
-            , signInOrUp = document.getElementById("signInOrUp")
-            , err_mes = document.getElementById("err-mes");
+            , signInOrUp = document.getElementById("signInOrUp");
 
         function validatePassword() {
             if (password.value != confirm_password.value) {
@@ -100,11 +104,12 @@
         confirm_password.onkeyup = validatePassword;
         confirm_password.onchange = validatePassword;
 
-        if(<%= fail %>){
-            if("<%= username%>" == ""){
-            signInOrUp.className += " s-signup";
-            }else{
-                err_mes.innerHTML = "<%= message %>";
+        if (<%= fail %>) {
+            if ("<%= username%>" == "") {
+                signInOrUp.className += " s-signup";
+                document.getElementById("sign-up-err-mes")
+            } else {
+                document.getElementById("sign-in-err-mes").innerHTML = "<%= message %>";
             }
             alert("<%= message %>");
         }
