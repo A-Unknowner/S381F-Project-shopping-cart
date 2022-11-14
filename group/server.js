@@ -168,7 +168,7 @@ app.get('/home', (req, res) => {
     if (req.session.authenticated) {
         console.log(`Hello ${req.session.userid}, welcome back home`);
         const client = new MongoClient(mongourl);
-        if (req.method == "GET" && typeof req.query.search != 'undefined') {
+        if (req.method == "GET" && typeof req.query.search != 'undefined' && req.query.search != '') {
             console.log("get");
             let criteria = {};
             criteria['product_name'] = new RegExp(`${req.query.search}`);
@@ -178,9 +178,7 @@ app.get('/home', (req, res) => {
                 const db = client.db(dbName);
                 findDocument(db, criteria, "item", (docs) => {
                     client.close();
-                    // for (var i of docs){
-                    //     res.status(200).render("home", { itemList : i });
-                    // }
+
                     res.status(200).render("home", { items: docs });
                 });
             });
@@ -188,13 +186,9 @@ app.get('/home', (req, res) => {
             client.connect((err) => {
                 assert.equal(null, err);
                 const db = client.db(dbName);
-
                 findDocument(db, {}, "item", (docs) => {
                     client.close();
 
-                    // for (var i of docs){
-                    //     res.status(200).render("home", { itemList : i });
-                    // }
                     res.status(200).render("home", { items: docs });
                 });
             });
