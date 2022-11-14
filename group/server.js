@@ -84,45 +84,63 @@ const passwordEncryption = (password, callback) => {
     console.log("Encryption finished");
 }
 
-// const to_base64 = (data, callback) => {
-//     callback(new Buffer.from(data).toString('base64'));
-// }
+
+const to_base64 = (image, callback) => {
+    fs.readFile(image.path, (err, data) => {
+        assert.equal(err,null);
+        var base64 =  new Buffer.from(data).toString('base64');
+        // console.log(base64);
+        callback(base64);
+    });
+}
+function splitStr(str) {
+      
+    // Function to split string
+    var string = str.split("/");
+      
+    console.log(string);
+    return string;
+}
 
 //update image
 app.post('/updateImage', (req, res) => {
     console.log("update image");
-    const client = new MongoClient(mongourl);
-    const criteria = {};
-    const update_action = {};
-    if (typeof req.fields.type != 'undefined' && typeof req.fields.base64 != 'undefined') {
-        update_action["icon"] = {
-            "type": `${req.fields.type}`,
-            "base64": `${req.fields.base64}`
-        };
-        criteria["username"] = req.fields.username;
-        criteria["password"] = req.fields.password;
-        console.log(criteria);
-        console.log(update_action);
-
-        client.connect((err) => {
-            assert.equal(null, err);
-            const db = client.db(dbName);
-            updateDocument(db, criteria, update_action, 'user', (docs) => {
-                client.close();
-                if (req.fields.username != "") {
-                    req.session.userid = req.fields.username;
-                }
-                console.log("Updated user icon");
-                // const message = {};
-                // message["result"] = true;
-                // message["message"] = "sueccesful updated";
-                res.status(500).json({ "result": true, "message": "sueccesful updated" });
-            });
-        })
-
-    } else {
-        res.status(500).json({ "result": false, "message": "something wrong" });
-    }
+    to_base64(req.files.image, (base64) => {
+        const client = new MongoClient(mongourl);
+        const type = splitStr(`${req.files.image.type}`);
+        console.log(type[1]);
+        const criteria = {};
+        const update_action = {};
+        if (typeof req.fields.username != 'undefined' && typeof req.fields.password != 'undefined') {
+            update_action["icon"] = {
+                "type": `${type[1]}`,
+                "base64": `${base64}`
+            };
+            criteria["username"] = req.fields.username;
+            criteria["password"] = req.fields.password;
+            console.log(criteria);
+            console.log(update_action);
+    
+            client.connect((err) => {
+                assert.equal(null, err);
+                const db = client.db(dbName);
+                updateDocument(db, criteria, update_action, 'user', (docs) => {
+                    client.close();
+                    if (req.fields.username != "") {
+                        req.session.userid = req.fields.username;
+                    }
+                    console.log("Updated user icon");
+                    // const message = {};
+                    // message["result"] = true;
+                    // message["message"] = "sueccesful updated";
+                    res.status(200).json({ "result": true, "message": "sueccesful updated" });
+                });
+            })
+    
+        } else {
+            res.status(500).json({ "result": false, "message": "something wrong" });
+        }
+    });
     
 });
 
