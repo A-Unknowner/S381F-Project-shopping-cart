@@ -55,16 +55,14 @@
         var original_button = document.getElementById("original")
         var select_image = document.getElementById("image");
         var original = image.src;
-        var type;
-        var base64;
         original_button.addEventListener("click", function () {
             image.src = original;
             select_image.value = "";
             original_button.style.display = "none";
-            type = "<%= user.icon.type %>";
-            base64 = "<%= user.icon.base64 %>";
-            upload();
+            var file = dataURLtoFile(`${original}`, 'icon.<%= user.icon.type %>');
+            upload(file);
         });
+
         function readFile() {
 
             if (!this.files || !this.files[0]) return;
@@ -72,52 +70,46 @@
             const FR = new FileReader();
 
             FR.addEventListener("load", function (evt) {
-                type = evt.target.result.split("data:image/")[1].split(";base64,")[0];
-                base64 = evt.target.result.split("data:image/")[1].split(";base64,")[1];
                 image.src = evt.target.result;
                 original_button.style.display = "block";
                 // console.log(base64);
-                upload();
+                upload(select_image.files[0]);
             });
 
             FR.readAsDataURL(this.files[0]);
 
         }
         select_image.addEventListener("change", readFile);
+        function dataURLtoFile(dataurl, filename) {
 
-        function upload() {
-            // fetch('http://127.0.0.1:8099/updateImage', {
-            //     method: 'POST',
-            //     headers: {
-            //         'Accept': 'application/json',
-            //         'Content-Type': 'application/json'
-            //     },
-            //     body: JSON.stringify({ 
-            //         "type": `${type}`, 
-            //         "base64": `${base64}`, 
-            //         "username": '<%= user.username %>',
-            //         "password": '<%= user.password %>'
-            //     })
-            // })
-            //     .then(response => response.json())
-            //     .then(response => console.log(JSON.stringify(response)))
-            $.ajax({
-                type: "POST",
-                url: "http://127.0.0.1:8099/updateImage",
-                data: JSON.stringify({ 
-                    "type": `${type}`, 
-                    "base64": `${base64}`, 
-                    "username": '<%= user.username %>',
-                    "password": '<%= user.password %>'
-                }),
-                contentType: "application/json",
-                success: function (result) {
-                    console.log(result);
-                },
-                error: function (result, status) {
-                    console.log(result);
-                }
+            var arr = dataurl.split(','),
+                mime = arr[0].match(/:(.*?);/)[1],
+                bstr = atob(arr[1]),
+                n = bstr.length,
+                u8arr = new Uint8Array(n);
+
+            while (n--) {
+                u8arr[n] = bstr.charCodeAt(n);
+            }
+
+            return new File([u8arr], filename, { type: mime });
+        }
+
+        function upload(image) {
+            var formData = new FormData();
+            formData.append("image", image);
+            formData.append("username", '<%= user.username %>');
+            formData.append("password", '<%= user.password %>');
+            console.log(formData["image"]);
+            fetch('http://localhost:8099/updateImage', {
+                method: 'POST',
+                body: formData
+            }).then((response) => {
+                console.log(response);
+            }).catch((error) => {
+                console.log(`Error: ${error}`);
             });
+            select_image.value = "";
         }
     </script>
 
