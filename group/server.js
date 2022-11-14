@@ -63,7 +63,7 @@ const deleteDocument = (db, criteria, collection, callback) => {
     });
 }
 const updateDocument = (db, criteria, update_action, collection, callback) => {
-    const updateDoc = {$set:update_action}
+    const updateDoc = { $set: update_action }
     cursor = db.collection(collection).update(criteria, updateDoc, (error, results) => {
         if (error) throw error;
         console.log(results);
@@ -82,13 +82,46 @@ const passwordEncryption = (password, callback) => {
     console.log("Encryption finished");
 }
 
-const to_base64 = (data, callback) => {
-    callback(new Buffer.from(data).toString('base64'));
-}
+// const to_base64 = (data, callback) => {
+//     callback(new Buffer.from(data).toString('base64'));
+// }
+
 //update image
 app.post('/updateImage', (req, res) => {
+    console.log("update image");
     const client = new MongoClient(mongourl);
-    criteria = {};
+    const criteria = {};
+    const update_action = {};
+    if (typeof req.fields.type != 'undefined' && typeof req.fields.base64 != 'undefined') {
+        update_action["icon"] = {
+            "type": `${req.fields.type}`,
+            "base64": `${req.fields.base64}`
+        };
+        criteria["username"] = req.fields.username;
+        criteria["password"] = req.fields.password;
+        console.log(criteria);
+        console.log(update_action);
+
+        client.connect((err) => {
+            assert.equal(null, err);
+            const db = client.db(dbName);
+            updateDocument(db, criteria, update_action, 'user', (docs) => {
+                client.close();
+                if (req.fields.username != "") {
+                    req.session.userid = req.fields.username;
+                }
+                console.log("Updated user icon");
+                // const message = {};
+                // message["result"] = true;
+                // message["message"] = "sueccesful updated";
+                res.status(500).json({ "result": true, "message": "sueccesful updated" });
+            });
+        })
+
+    } else {
+        res.status(500).json({ "result": false, "message": "something wrong" });
+    }
+    
 });
 
 //login
@@ -219,45 +252,45 @@ app.get("/delete", (req, res) => {
 
 // update profile
 app.post("/profile", (req, res) => {
-if (req.session.authenticated) {
-    console.log("Update user profile");
-    const criteria = {};
-    const update_action = {};
-    criteria["username"] = req.session.userid;
-    passwordEncryption(req.fields.password, (hashed) => {
-        var email_regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
-        if (req.fields.username){
-            update_action["username"] = req.fields.username;
-        }
-        if (req.fields.email != "") {
-            if (req.fields.email.match(email_regex)) {
-                update_action["email"] = req.fields.email;
-            } else {
-                console.log("Invalid email");
+    if (req.session.authenticated) {
+        console.log("Update user profile");
+        const criteria = {};
+        const update_action = {};
+        criteria["username"] = req.session.userid;
+        passwordEncryption(req.fields.password, (hashed) => {
+            var email_regex = /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/;
+            if (req.fields.username) {
+                update_action["username"] = req.fields.username;
             }
-        }
-        if (req.fields.password != ""){
-            update_action["password"] = hashed;
-        }
-        if (Object.keys(update_action).length == 0){
-            res.status(200).redirect("profileEdit");
-            console.log("Please insert the data");
-        } else{
-            const client = new MongoClient(mongourl);
-            client.connect((err) => {
-                assert.equal(null, err);
-                const db = client.db(dbName);
-                updateDocument(db, criteria, update_action, 'user', (docs) => {
-                    client.close();
-                    if (req.fields.username != ""){
-                        req.session.userid = req.fields.username;
-                    }
-                    console.log("Updated user profile");
-                    res.status(200).redirect("profileEdit");
-                });
-            })
-        }
-    });
+            if (req.fields.email != "") {
+                if (req.fields.email.match(email_regex)) {
+                    update_action["email"] = req.fields.email;
+                } else {
+                    console.log("Invalid email");
+                }
+            }
+            if (req.fields.password != "") {
+                update_action["password"] = hashed;
+            }
+            if (Object.keys(update_action).length == 0) {
+                res.status(200).redirect("profileEdit");
+                console.log("Please insert the data");
+            } else {
+                const client = new MongoClient(mongourl);
+                client.connect((err) => {
+                    assert.equal(null, err);
+                    const db = client.db(dbName);
+                    updateDocument(db, criteria, update_action, 'user', (docs) => {
+                        client.close();
+                        if (req.fields.username != "") {
+                            req.session.userid = req.fields.username;
+                        }
+                        console.log("Updated user profile");
+                        res.status(200).redirect("profileEdit");
+                    });
+                })
+            }
+        });
 
     } else {
         res.status(200).redirect('/');
@@ -403,7 +436,7 @@ app.post("/login", (req, res, next) => {
             InsertDocument(db, criteria, "user", (docs) => {
                 client.close();
                 console.log("Created an account");
-                
+
                 req.session.authenticated = true;
                 req.session.userid = req.fields.new_acct_uname;
                 res.status(200).redirect("/");
@@ -412,9 +445,9 @@ app.post("/login", (req, res, next) => {
     });
 });
 
-app.get('/api/user/:name', function(req,res)  {
+app.get('/api/user/:name', function (req, res) {
     console.log("...Rest Api");
-	console.log("name: " + req.params.name);
+    console.log("name: " + req.params.name);
     if (req.params.name) {
         let criteria = {};
         criteria['username'] = req.params.name;
@@ -431,30 +464,30 @@ app.get('/api/user/:name', function(req,res)  {
             });
         });
     } else {
-        res.status(500).json({"error": "missing name"});
+        res.status(500).json({ "error": "missing name" });
     }
 });
 
-app.get('/api/item', function(req,res)  {
+app.get('/api/item', function (req, res) {
     console.log("...Rest Api");
-        let criteria = {};
-        const client = new MongoClient(mongourl);
-        client.connect((err) => {
-            assert.equal(null, err);
-            console.log("Connected successfully to server");
-            const db = client.db(dbName);
+    let criteria = {};
+    const client = new MongoClient(mongourl);
+    client.connect((err) => {
+        assert.equal(null, err);
+        console.log("Connected successfully to server");
+        const db = client.db(dbName);
 
-            findDocument(db, criteria, "item", (docs) => {
-                client.close();
-                console.log("Closed DB connection");
-                res.status(200).json(docs);
-            });
+        findDocument(db, criteria, "item", (docs) => {
+            client.close();
+            console.log("Closed DB connection");
+            res.status(200).json(docs);
         });
+    });
 });
 
-app.get('/api/item/:product_name', function(req,res)  {
+app.get('/api/item/:product_name', function (req, res) {
     console.log("...Rest Api");
-	console.log("Product name: " + req.params.product_name);
+    console.log("Product name: " + req.params.product_name);
     if (req.params.product_name) {
         let criteria = {};
         criteria['product_name'] = req.params.product_name;
@@ -471,7 +504,7 @@ app.get('/api/item/:product_name', function(req,res)  {
             });
         });
     } else {
-        res.status(500).json({"error": "missing product name"});
+        res.status(500).json({ "error": "missing product name" });
     }
 });
 
