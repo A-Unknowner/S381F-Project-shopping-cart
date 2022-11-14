@@ -24,6 +24,8 @@ const e = require('express');
 app.set('view engine', 'ejs');
 app.use(formidable());
 //Middleware
+// app.use(express.urlencoded({limit: '50mb'}));
+app.use(express.json({limit: '50mb'}));
 app.use(bodyParser.json());
 //Cookie
 app.use(session({
