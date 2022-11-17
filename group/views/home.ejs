@@ -10,21 +10,24 @@
 
     <br />
     <div>
+
         <div style="margin-top: 5px; display: inline-block;">
             <form method="get" action="" >
                 <input type="search" name="search" id="search"/>
                 <input type="submit" value="Search"/>
             </form>
         </div>
+
         <div style="display: inline-block; float: right;">
             <button class="submit" type="submit" onclick="location.href='/profile'">Edit User Profile</button>
             <button class="submit" type="submit" onclick="location.href='/logout'">Logout</button>
         </div>
+        
     </div>
 
 
     <br />
-
+    <center>
     <% for(var item of items){%>
         <div
             style="border-style: solid; display: inline-block; margin:5px; padding: 5px; max-height: 600px; max-width: 600px;">
@@ -43,6 +46,7 @@
         </div>
 
         <%}%>
+    </center>
 </body>
 
 </html>
