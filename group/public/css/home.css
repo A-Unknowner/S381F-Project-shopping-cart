@@ -4,6 +4,11 @@ body{
 
 }
 
+#home{
+    text-align: center;
+    border: 1px solid black;
+}
+
 ul{
     display: -webkit-box;
   display: -ms-flexbox;
