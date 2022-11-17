@@ -13,12 +13,11 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    /* background: -webkit-linear-gradient(left, #7579ff, #b224ef); */
+    background: -webkit-linear-gradient(left, #7579ff, #b224ef);
     font-family: 'Nunito', sans-serif;
-    /* background-image: url("../images/lance-asper-Ny0C6Iwou40-unsplash.jpg"); */
+    background-image: url("https://images.pexels.com/photos/2124703/pexels-photo-2124703.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
     background-repeat: no-repeat;
     background-size: 100% 100%;
-    background-color: #4070f4;
 }
 
 input,
@@ -192,7 +191,7 @@ button {
     top: 0;
     width: 900px;
     height: 100%;
-    /* background-image: url("../images/lance-asper-Ny0C6Iwou40-unsplash.jpg"); */
+    background-image: url("https://images.pexels.com/photos/2124703/pexels-photo-2124703.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2");
     background-size: cover;
     transition: -webkit-transform 1.2s ease-in-out;
     transition: transform 1.2s ease-in-out, -webkit-transform 1.2s ease-in-out;
