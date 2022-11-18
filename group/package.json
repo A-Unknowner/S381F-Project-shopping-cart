@@ -1,7 +1,7 @@
 {
     "name": "shopping_car",
     "description": "COMPS381F project",
-    "author": "Wong Ping Kuen <s1303149@live.hkmu.edu.hk>, Rai Jon <s1274941@live.hkmu.edu.hk>, Yeung Ho Yin Tommy <s1302457@live.hkmu.edu.hk>",
+    "author": "Wong Ping Kuen <s1303149@live.hkmu.edu.hk>, Rai Jon <s1274941@live.hkmu.edu.hk>, Yeung Ho Yin Tommy <s1302457@live.hkmu.edu.hk>, LI Chi Fung <13031837@live.hkmu.edu.hk>",
     "version": "0.0.1",
     "engines": {
         "node": "^14.15.1"
