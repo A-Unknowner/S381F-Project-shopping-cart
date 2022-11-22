@@ -5,7 +5,7 @@ Password : 123
 email : teacher@live.com
 img
 }
-===========================================================
+=============================================================
 *Login (User login with username and password)
 -username
 -password
@@ -25,4 +25,4 @@ img
 
 *display (user can see the item that they searched)
 -by name
-==================================================
+============================================================
