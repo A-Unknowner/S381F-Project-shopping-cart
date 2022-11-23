@@ -4,8 +4,8 @@ YEUNG Ho Yin Tommy (13024570) (s1302457@live.hkmu.edu.hk),\
 Wong Ping Kuen (13031493) (s1303149@live.hkmu.edu.hk)
 
 ## S381F Group Project (Shopping Cart)
-=============================================================
-###Detail for test Account {\
+
+Detail for test Account {\
 Username : teacher, \
 Password : 123, \
 email : teacher@live.com, \
