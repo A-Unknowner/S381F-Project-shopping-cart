@@ -1,4 +1,4 @@
-# test
+# S381F Group Project (Shopping Cart)
 Detail for test Account {
 Username : teacher
 Password : 123
