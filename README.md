@@ -14,11 +14,17 @@ Rai Jon (12749417) (s1274941@live.hkmu.edu.hk)
 #### img }
 
 ***
+## Environment
+node v14.15.1+
+
+***
 ## Install
 1. npm install 
 2. npm start
 
 *** 
+##### URL: https://s381f-shopping-cart.herokuapp.com/ 
+
 *Login (User login with username and password)\
 -username\
 -password
@@ -45,7 +51,7 @@ This function is in homepage user can search for item in the search bar by the i
 
 *display (user can see the item that they searched) function will show user, searched item on under the search bar.
 
-
+*** 
 ## API
 |                           URL                              |                          description                    |
 |:----------------------------------------------------------:|:-------------------------------------------------------:|
@@ -55,11 +61,30 @@ This function is in homepage user can search for item in the search bar by the i
 
 
 we use API as for HTTP, the API will gets user information and help to communicate with other device 
+
+***
+### Directory structure
+├── README.md 
+├── server.js
+├── package.json
+├── publice
+│   └── css
+│       ├── home.css
+│       ├── index.css
+│       ├── profile.css
+│       └── profileEdit.css
+├── views
+│   ├── profile.ejs
+│   ├── home.ejs
+│   ├── login.ejs
+│   └── profileEdit.ejs
+└── node_modules
+
+
 ***
  
  
  TODO :
-  
   Edit Cart item    
   extend the item list
   payment function
