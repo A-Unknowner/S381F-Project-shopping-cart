@@ -81,7 +81,7 @@ we use API as for HTTP, the API will gets user information and help to communica
 └── node_modules
  
  
- ## TODO :
+ ## Future :
 - Edit Cart item   
 - extend the item list
 - payment function
