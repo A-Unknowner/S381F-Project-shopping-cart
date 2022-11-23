@@ -15,9 +15,8 @@ Rai Jon (12749417) (s1274941@live.hkmu.edu.hk)
 
 ***
 ## Install
-
-npm install 
-npm start
+1. npm install 
+2. npm start
 
 *** 
 *Login (User login with username and password)\
