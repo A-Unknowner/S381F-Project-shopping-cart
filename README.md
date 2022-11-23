@@ -1,7 +1,7 @@
 # Group members
-LI Chi Fung (13031837) (s1303183@live.hkmu.edu.hk), 
-YEUNG Ho Yin Tommy (13024570) (s1302457@live.hkmu.edu.hk),
-Wong Ping Kuen (13031493) (s1303149@live.hkmu.edu.hk)
+LI Chi Fung (13031837) (s1303183@live.hkmu.edu.hk), \
+YEUNG Ho Yin Tommy (13024570) (s1302457@live.hkmu.edu.hk),\
+Wong Ping Kuen (13031493) (s1303149@live.hkmu.edu.hk)\
 
 # S381F Group Project (Shopping Cart)
 Detail for test Account {
@@ -11,9 +11,9 @@ email : teacher@live.com
 img
 }
 =============================================================
-*Login (User login with username and password)
--username
--password
+*Login (User login with username and password)\
+-username\
+-password\
 
 (User will get and pop-out message if an incorrect password or username is enter.)
 
