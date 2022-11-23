@@ -13,11 +13,12 @@ Rai Jon (12749417) (s1274941@live.hkmu.edu.hk)
 #### email : 'teacher@live.com', 
 #### img }
 
-***
+
 ## Environment
 node v14.15.1+
 
-***
+
+
 ## Install
 1. npm install 
 2. npm start
@@ -64,20 +65,20 @@ we use API as for HTTP, the API will gets user information and help to communica
 
 ***
 ### Directory structure
-├── README.md 
-├── server.js
-├── package.json
-├── publice
-│   └── css
-│       ├── home.css
-│       ├── index.css
-│       ├── profile.css
-│       └── profileEdit.css
-├── views
-│   ├── profile.ejs
-│   ├── home.ejs
-│   ├── login.ejs
-│   └── profileEdit.ejs
+├── README.md \
+├── server.js \
+├── package.json \
+├── publice \
+│   └── css \
+│       ├── home.css \
+│       ├── index.css \
+│       ├── profile.css \
+│       └── profileEdit.css \
+├── views \
+│   ├── profile.ejs \
+│   ├── home.ejs \
+│   ├── login.ejs \
+│   └── profileEdit.ejs \
 └── node_modules
 
 
