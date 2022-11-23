@@ -6,12 +6,10 @@ Wong Ping Kuen (13031493) (s1303149@live.hkmu.edu.hk)
 ## S381F Group Project (Shopping Cart)
 
 ### Detail for test Account :
-#### {
-#### Username : 'teacher', 
+#### { Username : 'teacher', 
 #### Password : '123', 
 #### email : 'teacher@live.com', 
-#### img
-#### }
+#### img }
 
 *** 
 *Login (User login with username and password)\
