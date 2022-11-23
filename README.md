@@ -32,7 +32,6 @@ node v14.15.1+
 
 (User will get and pop-out message if an incorrect password or username is enter.)
 
-
 *Create (user sign up to create an account)\
 -username\
 -password\
@@ -52,7 +51,7 @@ This function is in homepage user can search for item in the search bar by the i
 
 *display (user can see the item that they searched) function will show user, searched item on under the search bar.
 
-*** 
+ 
 ## API
 |                           URL                              |                          description                    |
 |:----------------------------------------------------------:|:-------------------------------------------------------:|
@@ -80,13 +79,10 @@ we use API as for HTTP, the API will gets user information and help to communica
 │   ├── login.ejs \
 │   └── profileEdit.ejs \
 └── node_modules
-
-
-***
  
  
- TODO :
-  Edit Cart item    
-  extend the item list
-  payment function
-  refund
+ ## TODO :
+- Edit Cart item \   
+- extend the item list \
+- payment function \
+- refund function 
