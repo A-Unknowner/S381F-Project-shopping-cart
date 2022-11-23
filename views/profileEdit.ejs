@@ -102,7 +102,7 @@
             formData.append("username", '<%= user.username %>');
             formData.append("password", '<%= user.password %>');
             console.log(formData["image"]);
-            fetch('http://localhost:8099/updateImage', {
+            fetch('/updateImage', {
                 method: 'POST',
                 body: formData
             }).then((response) => {
