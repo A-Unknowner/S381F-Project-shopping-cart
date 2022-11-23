@@ -102,7 +102,7 @@
             formData.append("username", '<%= user.username %>');
             formData.append("password", '<%= user.password %>');
             console.log(formData["image"]);
-            fetch('/updateImage', {
+            fetch('https://s381f-shopping-cart.herokuapp.com/updateImage', {
                 method: 'POST',
                 body: formData
             }).then((response) => {
