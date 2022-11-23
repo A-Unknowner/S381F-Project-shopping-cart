@@ -43,10 +43,9 @@ npm start
 
 *search (user can search item)
 
-*display (user can see the item that they searched)
+*display (user can see the item that they searched) by name
 
-by name
-============================================================
+***
  
  
  TODO :
