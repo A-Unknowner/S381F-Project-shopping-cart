@@ -13,7 +13,7 @@ img
 =============================================================
 *Login (User login with username and password)\
 -username\
--password\
+-password
 
 (User will get and pop-out message if an incorrect password or username is enter.)
 
