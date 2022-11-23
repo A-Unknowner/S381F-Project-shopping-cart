@@ -41,12 +41,26 @@ Rai Jon (12749417) (s1274941@live.hkmu.edu.hk)
 *delete (user can delete their account)
 
 *search (user can search item)
+This function is in homepage user can search for item in the search bar by the item name but they will have to follow wether the item name is in UPPER-CASE or lower-case.
 
-*display (user can see the item that they searched) by name
+*display (user can see the item that they searched) function will show user, searched item on under the search bar.
 
+
+## API
+|                           URL                              |                          description                    |
+|:----------------------------------------------------------:|:-------------------------------------------------------:|
+| https://s381f-shopping-cart.herokuapp.com/api/item/        | display all item with json object                       |
+| https://s381f-shopping-cart.herokuapp.com/api/item/Apple   | display (item) Apple with json object                   |
+| https://s381f-shopping-cart.herokuapp.com/api/user/teacher | display (user) teacher all information with json object |
+
+
+we use API as for HTTP, the API will gets user information and help to communicate with other device 
 ***
  
  
  TODO :
   
   Edit Cart item    
+  extend the item list
+  payment function
+  refund
