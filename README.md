@@ -19,7 +19,7 @@ node v14.15.1+
 
 
 
-## Install
+## Install & Run
 1. npm install 
 2. npm start
 
@@ -63,7 +63,7 @@ This function is in homepage user can search for item in the search bar by the i
 we use API as for HTTP, the API will gets user information and help to communicate with other device 
 
 ***
-### Directory structure
+### Directory Structure
 ├── README.md \
 ├── server.js \
 ├── package.json \
