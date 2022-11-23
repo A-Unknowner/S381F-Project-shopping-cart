@@ -20,8 +20,9 @@ node v14.15.1+
 
 
 ## Install & Run
-1. npm install 
-2. npm start
+1. cd 381F-Project-shopping-cart-main
+2. npm install 
+3. npm start
 
 *** 
 ##### URL: https://s381f-shopping-cart.herokuapp.com/ 
@@ -81,6 +82,7 @@ we use API as for HTTP, the API will gets user information and help to communica
 └── node_modules
  
  
+
  ## Future :
 - Edit Cart item   
 - extend the item list
