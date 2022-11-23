@@ -2,6 +2,7 @@
 LI Chi Fung (13031837) (s1303183@live.hkmu.edu.hk), \
 YEUNG Ho Yin Tommy (13024570) (s1302457@live.hkmu.edu.hk),\
 Wong Ping Kuen (13031493) (s1303149@live.hkmu.edu.hk),\
+Rai Jon (12749417) (s1274941@live.hkmu.edu.hk)
 
 
 ## S381F Group Project (Shopping Cart)
@@ -11,6 +12,12 @@ Wong Ping Kuen (13031493) (s1303149@live.hkmu.edu.hk),\
 #### Password : '123', 
 #### email : 'teacher@live.com', 
 #### img }
+
+***
+## Install
+
+npm install 
+npm start
 
 *** 
 *Login (User login with username and password)\
@@ -37,5 +44,11 @@ Wong Ping Kuen (13031493) (s1303149@live.hkmu.edu.hk),\
 *search (user can search item)
 
 *display (user can see the item that they searched)
--by name
+
+by name
 ============================================================
+ 
+ 
+ TODO :
+  
+  Edit Cart item
